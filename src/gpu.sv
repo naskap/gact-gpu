@@ -214,4 +214,9 @@ module gpu #(
             );
         end
     endgenerate
+
+    initial begin
+        $dumpfile("waves.vcd");
+        $dumpvars(0, gpu); // replace <top_module> with your top-level DUT/testbench name
+    end
 endmodule

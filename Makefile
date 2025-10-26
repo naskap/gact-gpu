@@ -5,7 +5,8 @@ export LIBPYTHON_LOC=$(shell cocotb-config --libpython)
 test_%:
 	make compile
 	iverilog -o build/sim.vvp -s gpu -g2012 build/gpu.v
-	MODULE=test.test_$* vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus build/sim.vvp
+	MODULE=test.test_$* vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus build/sim.vvp -vcd
+	mv waves.vcd traces/$*.vcd
 
 compile:
 	make compile_alu
