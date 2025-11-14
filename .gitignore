@@ -3,6 +3,10 @@ build/
 test/logs/*
 !.gitkeep
 gds/**/*.gltf
+**/*.txt
+**/*.out
+**/*.vcd
+**/*.hex
 
 .DS_Store
 results.xml
