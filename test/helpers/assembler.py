@@ -13,6 +13,14 @@ def assemble(assembly : str):
         'CONST': 0b1001,
         'LDR'  : 0b0111,
         'RET'  : 0b1111,
+
+        # Added SW instructions
+        'CFG_REF_LEN': 0b1010,
+        'CFG_REF_ADDR'  : 0b1010,
+        'CFG_QUERY_LEN' : 0b1010,
+        'CFG_QUERY_ADDR': 0b1010,
+        'CFG_DIR_ADDR'  : 0b1010,
+        'START_SW'         : 0b1010,
     }
     registers = {f'R{i}': i for i in range(16)}
     specials  = {'%blockIdx': 13, '%blockDim': 14, '%threadIdx': 15}
@@ -96,6 +104,45 @@ def assemble(assembly : str):
                 raise ValueError(f"Undefined label: {label}")
 
             instr = (opcode << 12) | (0b1000 << 8) | (labels[label] & 0xFF)
+        elif mnemonic == 'CFG_REF_LEN':
+            if len(parts) != 2 or not parts[1].startswith('#'):
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            imm = int(parts[1][1:])
+            if not (0 <= imm <= 255):
+                raise ValueError(f"Invalid immediate in {line}")
+            instr = (opcode << 12) | (0b0000 << 8) | imm
+        elif mnemonic == 'CFG_REF_ADDR':
+            if len(parts) != 2:
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            src = registers.get(parts[1])
+            if src is None:
+                raise ValueError(f"Invalid register in {line}")
+            instr = (opcode << 12) | (0b0001 << 8) | (src & 0xF)
+        elif mnemonic == 'CFG_QUERY_LEN':
+            if len(parts) != 2 or not parts[1].startswith('#'):
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            imm = int(parts[1][1:])
+            if not (0 <= imm <= 255):
+                raise ValueError(f"Invalid immediate in {line}")
+            instr = (opcode << 12) | (0b0010 << 8) | imm
+        elif mnemonic == 'CFG_QUERY_ADDR':
+            if len(parts) != 2:
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            src = registers.get(parts[1])
+            if src is None:
+                raise ValueError(f"Invalid register in {line}")
+            instr = (opcode << 12) | (0b0011 << 8) | (src & 0xF)
+        elif mnemonic == 'CFG_DIR_ADDR':
+            if len(parts) != 2 or parts[1].startswith('#'):
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            src = registers.get(parts[1])
+            if src is None:
+                raise ValueError(f"Invalid register in {line}")
+            instr = (opcode << 12) | (0b0100 << 8) | (src & 0xF)
+        elif mnemonic == 'START_SW':
+            if len(parts) != 1:
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            instr = (opcode << 12) | (0b0101 << 8)
         elif mnemonic == 'RET': 
             if len(parts) != 1: 
                 raise ValueError(f"Invalid operands for {mnemonic}")
