@@ -10,7 +10,7 @@ import random
 
 def smith_waterman(ref, query):
 
-
+    #    A    C   G   T
     score_matrix = [
         [ 1, -1, -1, -1],   # A
         [-1,  1, -1, -1],   # C
@@ -24,9 +24,6 @@ def smith_waterman(ref, query):
     n, m = len(ref), len(query)
 
     # DP matrices:
-    # H = best score
-    # E = gap in seq1 (horizontal gap)
-    # F = gap in seq2 (vertical gap)
     H = [[0]*(m+1) for _ in range(n+1)] # Best score
     E = [[0]*(m+1) for _ in range(n+1)] # Best score assuming the last square was a horizontal gap (insertion)
     F = [[0]*(m+1) for _ in range(n+1)] # Best score assuming the last square was a vertical gap (deletion)

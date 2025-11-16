@@ -17,6 +17,9 @@ module decoder (
     output reg [3:0] decoded_rt_address,
     output reg [2:0] decoded_nzp,
     output reg [7:0] decoded_immediate,
+    // output wire [3:0] decoded_gact_subinstruction,
+    output reg [2:0] decoded_gact_config_state,
+    output reg  decoded_gact_config_mux,
     
     // Control Signals
     output reg decoded_reg_write_enable,           // Enable writing to a register
@@ -41,7 +44,25 @@ module decoder (
         LDR = 4'b0111,
         STR = 4'b1000,
         CONST = 4'b1001,
+        GACT  = 4'b1010, 
         RET = 4'b1111;
+
+    localparam CFG_NONE_CFG_STATE       = 3'b000;
+    localparam CFG_REF_LEN_CFG_STATE    = 3'b001;
+    localparam CFG_REF_ADDR_CFG_STATE   = 3'b010;
+    localparam CFG_QUERY_LEN_CFG_STATE  = 3'b011;
+    localparam CFG_QUERY_ADDR_CFG_STATE = 3'b100;
+    localparam CFG_DIR_ADRR_CFG_STATE   = 3'b101;
+
+    localparam CFG_MUX_IMM = 1'b0, CFG_MUX_REGFILE = 1'b1;
+
+    localparam CFG_REF_LEN = 4'b0000,
+        CFG_REF_ADDR = 4'b0001,
+        CFG_QUERY_LEN = 4'b0010,
+        CFG_QUERY_ADDR = 4'b0011,
+        CFG_DIR_ADDR = 4'b0100,
+        START_SW = 4'b0101;
+
 
     always @(posedge clk) begin 
         if (reset) begin 
@@ -68,6 +89,9 @@ module decoder (
                 decoded_rt_address <= instruction[3:0];
                 decoded_immediate <= instruction[7:0];
                 decoded_nzp <= instruction[11:9];
+
+                decoded_gact_config_state <= 3'b0;
+                decoded_gact_config_mux <= 0; 
 
                 // Control signals reset on every decode and set conditionally by instruction
                 decoded_reg_write_enable <= 0;
@@ -123,6 +147,33 @@ module decoder (
                     CONST: begin 
                         decoded_reg_write_enable <= 1;
                         decoded_reg_input_mux <= 2'b10;
+                    end
+
+                    GACT: begin
+                        case (instruction[11:8])
+                            CFG_REF_LEN: begin
+                                decoded_gact_config_state <= CFG_REF_LEN_CFG_STATE;
+                                decoded_gact_config_mux <= CFG_MUX_IMM;
+                            end
+                            CFG_REF_ADDR: begin
+                                decoded_gact_config_state <= CFG_REF_ADDR_CFG_STATE;
+                                decoded_gact_config_mux <= CFG_MUX_REGFILE;
+                            end
+                            CFG_QUERY_LEN: begin
+                                decoded_gact_config_state <= CFG_QUERY_LEN_CFG_STATE;
+                                decoded_gact_config_mux <= CFG_MUX_IMM;
+                            end
+                            CFG_QUERY_ADDR: begin
+                                decoded_gact_config_state <= CFG_QUERY_ADDR_CFG_STATE;
+                                decoded_gact_config_mux <= CFG_MUX_REGFILE;
+                            end
+                            CFG_DIR_ADDR: begin
+                                decoded_gact_config_state <= CFG_DIR_ADRR_CFG_STATE;
+                                decoded_gact_config_mux <= CFG_MUX_REGFILE;
+                            end
+                            START_SW: begin
+                            end
+                        endcase
                     end
                     RET: begin 
                         decoded_ret <= 1;

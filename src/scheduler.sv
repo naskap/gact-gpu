@@ -28,6 +28,7 @@ module scheduler #(
     // Memory Access State
     input reg [2:0] fetcher_state,
     input reg [1:0] lsu_state [THREADS_PER_BLOCK-1:0],
+    input wire gact_ready,
 
     // Current & Next PC
     output reg [7:0] current_pc,
@@ -85,8 +86,8 @@ module scheduler #(
                         end
                     end
 
-                    // If no LSU is waiting for a response, move onto the next stage
-                    if (!any_lsu_waiting) begin
+                    // If no LSU is waiting for a response, and gact is either ready or done, move onto the next stage
+                    if (!any_lsu_waiting && gact_ready) begin
                         core_state <= EXECUTE;
                     end
                 end

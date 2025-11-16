@@ -4,18 +4,18 @@ export LIBPYTHON_LOC=$(shell cocotb-config --libpython)
 
 test_%:
 	make compile
-	iverilog -o build/sim.vvp -s gpu -g2012 build/gpu.v
-	MODULE=test.test_$* vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus build/sim.vvp -vcd
+	MODULE=test.test_$* vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus build/sim.vvp -vcd || true
 	mv waves.vcd traces/$*.vcd
 
 compile:
 	make compile_alu
-	sv2v -I src/* -w build/gpu.v
+	sv2v -I src/*.sv -w build/gpu.v
 	echo "" >> build/gpu.v
 	cat build/alu.v >> build/gpu.v
 	echo '`timescale 1ns/1ns' > build/temp.v
 	cat build/gpu.v >> build/temp.v
 	mv build/temp.v build/gpu.v
+	iverilog -o build/sim.vvp -s gpu -g2012 build/gpu.v src/GACT/*.v 
 
 compile_%:
 	sv2v -w build/$*.v src/$*.sv

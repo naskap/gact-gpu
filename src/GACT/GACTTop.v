@@ -47,8 +47,6 @@ module GACTTop #(
     input wire query_wr_en,
 
     input wire [$clog2(MAX_TILE_SIZE):0] max_tb_steps,
-    input wire [$clog2(MAX_TILE_SIZE)-1:0] ref_len,
-    input wire [$clog2(MAX_TILE_SIZE)-1:0] query_len,
 
     input wire [PE_WIDTH-1:0] score_threshold,
     input wire [7:0] align_fields,
@@ -72,13 +70,29 @@ module GACTTop #(
     output wire [1:0] dir,
 
     input wire [REQUEST_ID_WIDTH-1:0] req_id_in,
-    output reg [REQUEST_ID_WIDTH-1:0] req_id_out
+    output reg [REQUEST_ID_WIDTH-1:0] req_id_out,
+
+
+    input wire [2:0] cfg_type,
+    input wire [DIR_BRAM_ADDR_WIDTH-1:0] cfg
+
+    // output wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] dmem_addr,
+    // input  wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] dmem_data,
+    // input  wire dmem_ready,
+    // output wire dmem_valid
   );
+
+    // Address configuration type constants
+    localparam CFG_NONE       = 3'b000;
+    localparam CFG_REF_LEN    = 3'b001;
+    localparam CFG_REF_ADDR   = 3'b010;
+    localparam CFG_QUERY_LEN  = 3'b011;
+    localparam CFG_QUERY_ADDR = 3'b100;
+    localparam CFG_DIR_ADRR   = 3'b101;
 
   parameter LOG_NUM_PE = $clog2(NUM_PE);
   parameter NUM_BLOCK = (2 ** BLOCK_WIDTH);
   
-  wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] ref_bram_addr;
   wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] query_bram_addr;
   
   wire [$clog2(MAX_TILE_SIZE)-1:0] ref_bram_rd_addr;
@@ -105,6 +119,7 @@ module GACTTop #(
   wire [$clog2(MAX_TILE_SIZE)-1:0] V_offset;
 
   wire [2*$clog2(MAX_TILE_SIZE)-1:0] array_num_tb_steps;
+  wire array_start;
 
   reg [12*PE_WIDTH-1:0] reg_in_params;
 
@@ -113,14 +128,22 @@ module GACTTop #(
   reg [2*NUM_DIR_BLOCK-1:0] dir_data_in;
   wire [DIR_BRAM_ADDR_WIDTH-1:0] dir_wr_addr;
 
+  reg [DIR_BRAM_ADDR_WIDTH-1:0] ref_addr_start;
+  reg [DIR_BRAM_ADDR_WIDTH-1:0] ref_len;
+  reg [DIR_BRAM_ADDR_WIDTH-1:0] query_addr_start;
+  reg [DIR_BRAM_ADDR_WIDTH-1:0] query_len;
+  reg [DIR_BRAM_ADDR_WIDTH-1:0] dir_addr_start;
+
   wire array_done;
   reg rst_array;
 
   reg [2:0] state;
   reg [2:0] next_state;
 
-  localparam READY=1, ARRAY_START=2, ARRAY_PROCESSING=3, BLOCK=4, DONE=5; 
-  
+  localparam READY=1, ARRAY_START=2, ARRAY_PROCESSING=3, BLOCK=4, DONE=5;
+
+  // Get rid of these later
+  wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] ref_bram_addr;
   assign ref_bram_addr = (ref_wr_en) ? ref_addr_in - 1 : ref_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
   assign query_bram_addr = (query_wr_en) ? query_addr_in - 1 : query_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
 
@@ -135,6 +158,7 @@ module GACTTop #(
       .data_in(ref_in),
       .data_out(ref_bram_data_out)
   );
+
 
   BRAM #(
       .ADDR_WIDTH($clog2(MAX_TILE_SIZE)-BLOCK_WIDTH),
@@ -194,6 +218,22 @@ module GACTTop #(
   end
 
   always@(posedge clk) begin
+    if (cfg_type == CFG_DIR_ADRR) begin
+        dir_addr_start <= cfg;
+    end
+    else if (cfg_type == CFG_REF_ADDR) begin
+        ref_addr_start <= cfg;
+    end
+    else if (cfg_type == CFG_QUERY_ADDR) begin
+        query_addr_start <= cfg;
+    end
+    else if (cfg_type == CFG_REF_LEN) begin
+        ref_len <= cfg;
+    end
+    else if (cfg_type == CFG_QUERY_LEN) begin
+        query_len <= cfg;
+    end
+
       reg_ref_bram_rd_addr <= ref_bram_rd_addr;
       reg_query_bram_rd_addr <= query_bram_rd_addr;
   end
@@ -224,11 +264,11 @@ module GACTTop #(
       .ref_length (ref_length),
       .query_length (query_length),
 
-      .ref_bram_rd_start_addr(0),
+      .ref_bram_rd_start_addr(6'b0), 
       .ref_bram_rd_addr(ref_bram_rd_addr),
       .ref_bram_data_in (ref_array_in),
 
-      .query_bram_rd_start_addr(0),
+      .query_bram_rd_start_addr(6'b0),
       .query_bram_rd_addr(query_bram_rd_addr),
       .query_bram_data_in (query_array_in),
 

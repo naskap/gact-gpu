@@ -41,8 +41,24 @@ def format_instruction(instruction: str) -> str:
         return f"STR {rs}, {rt}"
     elif opcode == "1001":
         return f"CONST {rd}, {imm}"
+    elif opcode == "1010":
+        if instruction[4:8] == "0000": 
+            return f"CFG_REF_LEN {imm}"
+        if instruction[4:8] == "0001": 
+            return f"CFG_REF_ADDR {rs}"
+        if instruction[4:8] == "0010": 
+            return f"CFG_QUERY_LEN {imm}"
+        if instruction[4:8] == "0011": 
+            return f"CFG_QUERY_ADDR {rs}"
+        if instruction[4:8] == "0100": 
+            return f"CFG_DIR_ADDR {rs}"
+        if instruction[4:8] == "0101": 
+            return f"START_SW "
+        
     elif opcode == "1111":
         return "RET"
+    
+    import pdb; pdb.set_trace()
     return "UNKNOWN"
 
 def format_core_state(core_state: str) -> str:
@@ -95,17 +111,26 @@ def format_registers(registers: List[str]) -> str:
     return ', '.join(formatted_registers)
 
 def format_cycle(dut, cycle_id: int, thread_id: Optional[int] = None):
-    logger.debug(f"\n================================== Cycle {cycle_id} ==================================")
+
+    reduce_verbosity = True
+
+    if(not reduce_verbosity):
+        logger.debug(f"\n================================== Cycle {cycle_id} ==================================")
 
     for core in dut.cores:
         # Not exactly accurate, but good enough for now
         if int(str(dut.thread_count.value), 2) <= core.i.value * dut.THREADS_PER_BLOCK.value:
             continue
 
-        logger.debug(f"\n+--------------------- Core {core.i.value} ---------------------+")
+        if(not reduce_verbosity):
+            logger.debug(f"\n+--------------------- Core {core.i.value} ---------------------+")
 
         instruction = str(core.core_instance.instruction.value)
         for thread in core.core_instance.threads:
+
+            if(reduce_verbosity and str(core.core_instance.core_state.value) != "110"):
+                continue
+
             if int(thread.i.value) < int(str(core.core_instance.thread_count.value), 2): # if enabled
                 block_idx = core.core_instance.block_id.value
                 block_dim = int(core.core_instance.THREADS_PER_BLOCK)
@@ -138,4 +163,11 @@ def format_cycle(dut, cycle_id: int, thread_id: Optional[int] = None):
                     if reg_input_mux == 2:
                         logger.debug("Constant:", constant)
 
-        logger.debug("Core Done:", str(core.core_instance.done.value))
+
+            if(reduce_verbosity):
+                break
+        
+        if(reduce_verbosity):
+            break
+
+            # logger.debug("Core Done:", str(core.core_instance.done.value))

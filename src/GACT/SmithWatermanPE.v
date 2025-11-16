@@ -131,6 +131,7 @@ module SmithWatermanPE #(
     assign F_out = F;
     assign T_out = T;
     assign init_out = init;
+    wire store_S_out;
     assign store_S_out = store_S;
     assign dir_addr = curr_ref_pos-1;
 

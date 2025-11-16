@@ -42,6 +42,11 @@ module FIFOWithCount #(
   reg [DEPTH_WIDTH:0] write_pointer;
   reg [DEPTH_WIDTH:0] read_pointer;
 
+  wire empty_int;
+  wire full_or_empty;
+  wire full_wire;
+  wire empty_wire;
+
   assign empty_int = (write_pointer[DEPTH_WIDTH] == read_pointer[DEPTH_WIDTH]); 
   assign full_or_empty = (write_pointer[DEPTH_WIDTH-1:0] == read_pointer[DEPTH_WIDTH-1:0]);
 
