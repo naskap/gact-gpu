@@ -80,16 +80,19 @@ module GACTTop #(
     input  wire [7:0] dmem_data,
     input  wire dmem_read_ready,
     output wire dmem_read_valid,
-    input wire dmem_write_ready
+    input wire dmem_write_ready,
+    output wire  dmem_write_valid,
+    output wire [7:0] dmem_write_data
   );
 
     reg dir_wr_en;
     reg [7:0] dir_wr_offset;
     wire [7:0] dir_wr_addr = dir_wr_offset + dir_addr_start + 3; // 3 to save room for score, ref_pos, query_pos
     wire [1:0] dmem_addr_mux_sel;
-    assign dmem_addr = dmem_addr_mux_sel == 2'b00 ? ref_bram_rd_addr :
-                        dmem_addr_mux_sel == 2'b01 ? query_bram_rd_addr :
-                        dir_wr_addr;
+    wire [7:0] dmem_addr_default = (dmem_addr_mux_sel == 2'b00) ? ref_bram_rd_addr :
+                                 (dmem_addr_mux_sel == 2'b01) ? query_bram_rd_addr :
+                                                               dir_wr_addr;
+  assign dmem_addr = writeback_loaded ? writeback_addr_reg : dmem_addr_default;
 
     // Address configuration type constants
     localparam CFG_NONE       = 3'b000;
@@ -148,9 +151,19 @@ module GACTTop #(
   reg [2:0] state;
   reg [2:0] next_state;
 
-  localparam READY=1, ARRAY_START=2, ARRAY_PROCESSING=3, BLOCK=4, DONE=5;
+  localparam READY=0, ARRAY_START=1, ARRAY_PROCESSING=2, BLOCK=3, 
+  WRITE_SCORE = 4, WRITE_REF_POS = 5, WRITE_QUERY_POS = 6, DONE = 7;
 
-//   // Get rid of these later
+  reg writeback_loaded;
+  reg [1:0] hold_ctr;
+  reg [7:0] writeback_addr_reg;
+  reg writeback_dmem_valid;
+  reg [7:0] writeback_dmem_data;
+  wire state_is_write = (state == WRITE_SCORE) || (state == WRITE_REF_POS) || (state == WRITE_QUERY_POS);
+  assign dmem_write_valid = state_is_write ? writeback_dmem_valid : dir_valid;
+  assign dmem_write_data  = state_is_write ? writeback_dmem_data  : {6'b0, dir};
+
+  //   // Get rid of these later
 //   wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] ref_bram_addr;
 //   assign ref_bram_addr = (ref_wr_en) ? ref_addr_in - 1 : ref_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
 //   assign query_bram_addr = (query_wr_en) ? query_addr_in - 1 : query_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
@@ -317,6 +330,11 @@ module GACTTop #(
           rst_array <= 1;
           state <= READY;
           dir_valid_update <= 0;
+          writeback_loaded <= 0;
+          hold_ctr <= 0;
+          writeback_addr_reg <= 0;
+          writeback_dmem_valid <= 0;
+          writeback_dmem_data <= 0;
       end
       else begin
           state <= next_state;
@@ -396,7 +414,6 @@ module GACTTop #(
                     end
                   end
                 end
-          end
           if (state == BLOCK) begin
               dir_wr_en <= 0;
           end
@@ -404,10 +421,46 @@ module GACTTop #(
               rst_array <= 0;
               dir_wr_en <= 0;
           end
-      end
 
-  always @(*) 
-  begin
+          if (state_is_write) begin
+              if (!writeback_loaded) begin
+                  writeback_loaded <= 1;
+                  writeback_dmem_valid <= 1;
+                  hold_ctr <= 2'd2;
+                  case (state)
+                      WRITE_SCORE: begin
+                          writeback_addr_reg <= dir_addr_start;
+                          writeback_dmem_data <= tile_score;
+                      end
+                      WRITE_REF_POS: begin
+                          writeback_addr_reg <= dir_addr_start + 1;
+                          writeback_dmem_data <= ref_max_pos;
+                      end
+                      WRITE_QUERY_POS: begin
+                          writeback_addr_reg <= dir_addr_start + 2;
+                          writeback_dmem_data <= query_max_pos;
+                      end
+                  endcase
+              end
+              else begin
+                  if (hold_ctr != 0) begin
+                      hold_ctr <= hold_ctr - 1'b1;
+                  end
+                  else if (dmem_write_ready && writeback_dmem_valid) begin
+                      writeback_loaded <= 0;
+                      writeback_dmem_valid <= 0;
+                  end
+              end
+          end
+          else begin
+              writeback_dmem_valid <= 0;
+              writeback_loaded <= 0;
+              hold_ctr <= 0;
+          end
+      end
+  end
+
+  always @(*) begin
       next_state = state;
       case (state)
           READY: begin
@@ -424,7 +477,22 @@ module GACTTop #(
               end
           end
           BLOCK: begin
-              next_state = DONE;
+              next_state = WRITE_SCORE;
+          end
+          WRITE_SCORE: begin
+              if ((hold_ctr == 0) && dmem_write_ready && writeback_loaded) begin
+                  next_state = WRITE_REF_POS;
+              end
+          end
+          WRITE_REF_POS: begin
+              if ((hold_ctr == 0) && dmem_write_ready && writeback_loaded) begin
+                  next_state = WRITE_QUERY_POS;
+              end
+          end
+          WRITE_QUERY_POS: begin
+              if ((hold_ctr == 0) && dmem_write_ready && writeback_loaded) begin
+                  next_state = DONE;
+              end
           end
           DONE: begin
               if (clear_done) begin
@@ -433,6 +501,5 @@ module GACTTop #(
           end
       endcase
   end
-  
 endmodule
 

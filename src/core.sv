@@ -86,8 +86,8 @@ module core #(
     wire gact_dmem_read_valid;
     assign data_mem_read_valid = gact_ready ? lsu_read_valid : gact_dmem_read_valid;
     assign data_mem_read_address = gact_ready ? lsu_read_addr : gact_dmem_addr;
-    assign data_mem_write_valid = gact_ready ? lsu_write_valid : dir_valid;
-    assign data_mem_write_data = gact_ready ? lsu_write_data : dir;
+    assign data_mem_write_valid = gact_ready ? lsu_write_valid : gact_dmem_write_valid;
+    assign data_mem_write_data = gact_ready ? lsu_write_data : gact_dmem_write_data;
     assign data_mem_write_address = gact_ready ? lsu_write_addr : gact_dmem_addr;
 
 
@@ -205,6 +205,8 @@ module core #(
 
     wire gact_dmem_read_ready = gact_ready ? 0 : data_mem_read_ready;
     wire gact_dmem_read_valid;
+    wire gact_dmem_write_valid;
+    wire [7:0] gact_dmem_write_data;
     wire [7:0] gact_dmem_addr; // Serves as both read and write addr
     wire [7:0] dmem_data = data_mem_read_data;
 
@@ -284,7 +286,9 @@ module core #(
       .dmem_read_valid(gact_dmem_read_valid),
       .dmem_addr(gact_dmem_addr),
       .dmem_data(dmem_data),
-      .dmem_write_ready(data_mem_write_ready)
+      .dmem_write_ready(data_mem_write_ready),
+      .dmem_write_valid(gact_dmem_write_valid),
+      .dmem_write_data(gact_dmem_write_data)
     );
 
     // Dedicated ALU, LSU, registers, & PC unit for each thread this core has capacity for

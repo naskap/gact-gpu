@@ -84,8 +84,8 @@ def smith_waterman(ref, query):
 
     return {
         "score": max_score,
-        "ref_pos" : max_pos[0],
-        "query_pos" : max_pos[1],
+        "ref_pos" : max_pos[0] - 1,
+        "query_pos" : max_pos[1] - 1,
         "tb": list(tb_reversed)
     }
 
@@ -187,8 +187,8 @@ RET                                                   ; end of kernel
         query_pos = result[2]
         tb        = result[3:]
 
-        # assert expected_result["score"] == score
-        # assert expected_result["ref_pos"] == ref_pos 
-        # assert expected_result["query_pos"] == query_pos
-        assert all([a==b for a,b in zip(tb, expected_result["tb"])])
+        assert expected_result["score"] == score, f"observed score = {score} expected {expected_result['score']}"
+        assert expected_result["ref_pos"] == ref_pos, f"observed ref pos = {ref_pos} expected {expected_result['ref_pos']}"
+        assert expected_result["query_pos"] == query_pos, f"observed query pos = {query_pos} expected {expected_result['query_pos']}"
+        assert all([a==b for a,b in zip(tb, expected_result["tb"])]), f"observed tb = {tb} expected {expected_result['tb']}"
         assert tb[len(expected_result["tb"])] == 0, "Elements afterwards should be 0"
