@@ -95,7 +95,7 @@ async def test_sw(dut):
     # Program Memory
     program_memory = Memory(dut=dut, addr_bits=8, data_bits=16, channels=1, name="program")
 
-    num_blocks       = 1
+    num_blocks       = 2
     ref_length       = 16
     query_length     = 8
     threads_per_warp = 4
@@ -107,9 +107,8 @@ async def test_sw(dut):
 CFG_REF_LEN #{ref_length}          
 CFG_QUERY_LEN #{query_length}
 
-MUL   R0, %blockIdx, %blockDim                        ; i = blockIdx * blockDim
 CONST R1, #{ref_length + query_length + result_length}   ; elmts_per_alignment      
-MUL   R1, R1, R0                                      ; reference address = i * elmts_per_alignment 
+MUL   R1, R1, %blockIdx                                      ; reference address = %blockIdx * elmts_per_alignment 
 CFG_REF_ADDR R1
 
 CONST R2, #{ref_length}
@@ -128,7 +127,7 @@ RET                                                   ; end of kernel
     data_memory = Memory(dut=dut, addr_bits=8, data_bits=8, channels=4, name="data")
 
     # Data layout is: reference1, query1, dir1, reference2, query2, dir2, ...
-    random.seed(12344321)
+    random.seed(1234321)
     ref   = []
     query = []
     data  = []
@@ -145,8 +144,7 @@ RET                                                   ; end of kernel
         query[-1].insert(random.randint(0,query_length-1),get_random_nucleotide())
 
         # Create dmem packed representation
-        data += ref[-1] + query[-1] + [0 for _ in range(ref_length + query_length)]
-
+        data += ref[-1] + query[-1] + [0 for _ in range(result_length)]
 
         expected_results.append(smith_waterman(ref[-1], query[-1]))
 
@@ -189,8 +187,6 @@ RET                                                   ; end of kernel
         query_pos = result[2]
         tb        = result[3:]
 
-        print(tb)
-        print(expected_result["tb"])
         # assert expected_result["score"] == score
         # assert expected_result["ref_pos"] == ref_pos 
         # assert expected_result["query_pos"] == query_pos

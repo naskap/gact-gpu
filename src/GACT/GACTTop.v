@@ -105,10 +105,10 @@ module GACTTop #(
   wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] query_bram_addr;
   
   wire [7:0] ref_bram_rd_addr;
-  wire [$clog2(MAX_TILE_SIZE)-1:0] query_bram_rd_addr;
+  wire [7:0] query_bram_rd_addr;
   
   reg [7:0] reg_ref_bram_rd_addr;
-  reg [$clog2(MAX_TILE_SIZE)-1:0] reg_query_bram_rd_addr;
+  reg [7:0] reg_query_bram_rd_addr;
 
   reg [$clog2(MAX_TILE_SIZE)-1:0] ref_length;
   reg [$clog2(MAX_TILE_SIZE)-1:0] query_length;
@@ -254,7 +254,7 @@ module GACTTop #(
       .REF_BLOCK_SIZE_WIDTH($clog2(MAX_TILE_SIZE)),
       .QUERY_BLOCK_SIZE_WIDTH($clog2(MAX_TILE_SIZE)),
       .PE_WIDTH(PE_WIDTH),
-      .PARAM_ADDR_WIDTH($clog2(MAX_TILE_SIZE))
+      .PARAM_ADDR_WIDTH(8)
   ) array (
       .clk (clk),
       .rst (rst_array),
