@@ -4,7 +4,7 @@ export LIBPYTHON_LOC=$(shell cocotb-config --libpython)
 
 test_%:
 	make compile
-	MODULE=test.test_$* vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus build/sim.vvp -vcd || true
+	@timeout 5 env MODULE=test.test_$* vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus build/sim.vvp -vcd || true
 	mv waves.vcd traces/$*.vcd
 
 compile:

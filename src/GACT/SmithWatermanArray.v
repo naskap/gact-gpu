@@ -52,10 +52,10 @@ module SmithWatermanArray #(
     input [REF_LEN_WIDTH-1:0] ref_length,
     input [QUERY_LEN_WIDTH-1:0] query_length,
 
-    input [REF_LEN_WIDTH-1:0] ref_bram_rd_start_addr, 
-    output reg [REF_LEN_WIDTH-1:0] ref_bram_rd_addr, 
+    input [7:0] ref_bram_rd_start_addr, 
+    output reg [7:0] ref_bram_rd_addr, 
     input [7:0] ref_bram_data_in,
-    input [PARAM_ADDR_WIDTH-1:0] query_bram_rd_start_addr,
+    input [7:0] query_bram_rd_start_addr,
     output reg [PARAM_ADDR_WIDTH-1:0] query_bram_rd_addr,
     input [7:0] query_bram_data_in,
 
@@ -76,7 +76,18 @@ module SmithWatermanArray #(
     output wire [1:0] dir,
     output wire dir_valid,
 
+    output wire [1:0] dmem_addr_mux_sel,
+    output wire dmem_read_valid,
+    input wire dmem_read_ready,
+    input wire dmem_write_ready,
+
     output done);
+
+    wire enable_PEs = state != SET_PARAM_HOLD && state != STREAM_REF_HOLD && state != STREAM_REF_STOP;
+
+    reg [2:0] hold_ctr;
+ 
+    assign dmem_read_valid = (state == SET_PARAM_HOLD || state == STREAM_REF_HOLD);
 
     localparam PARAM_WIDTH = 7 * PE_WIDTH;
     
@@ -90,6 +101,7 @@ module SmithWatermanArray #(
     reg ref_fifo_rd_en;
 
     reg [NUM_PE-1:0] set_param;
+    reg [NUM_PE-1:0] set_param_save;
     reg [NUM_PE-1:0] last;
     wire [PARAM_WIDTH-1:0] param;
     wire [PARAM_WIDTH-1:0] param_out;
@@ -233,7 +245,15 @@ module SmithWatermanArray #(
 
     genvar k;
 
-    localparam WAIT=0, READ_PARAM_FIFO=1, SET_PARAM=2, STREAM_REF_START=3, STREAM_REF=4, STREAM_REF_STOP=5, STREAM_REF_DONE=6, COMPUTE_MAX_START=7, COMPUTE_MAX_WAIT=8, BT_START=9, BT_WAIT=10, DONE=11;
+    localparam  WAIT=0, READ_PARAM_FIFO=1, SET_PARAM=2, SET_PARAM_HOLD=3,
+                STREAM_REF_START=4, STREAM_REF=5, STREAM_REF_HOLD=6,
+                STREAM_REF_STOP=7, STREAM_REF_DONE=8, 
+                COMPUTE_MAX_START=9, COMPUTE_MAX_WAIT=10, BT_START=11, BT_WAIT=12, DONE=13;
+
+
+    localparam DMEM_MUX_REF = 2'b00, DMEM_MUX_QUERY = 2'b01, DMEM_MUX_DIR = 2'b11;
+    assign dmem_addr_mux_sel = state == STREAM_REF || state == STREAM_REF_HOLD ? DMEM_MUX_REF :
+                                state == SET_PARAM || state == SET_PARAM_HOLD ? DMEM_MUX_QUERY : DMEM_MUX_DIR;
 
     assign dir = bt_logic_dir_out; 
     assign dir_valid = bt_logic_dir_valid;
@@ -244,7 +264,9 @@ module SmithWatermanArray #(
 
   always @(posedge clk) begin
       if (rst) begin
+          hold_ctr <= 3'd3;
           set_param <= 0;
+          set_param_save <= 0;
           last <= 0;
           first_query_block <= 1;
           ref_fifo_rd_en <= 0;
@@ -279,7 +301,18 @@ module SmithWatermanArray #(
                   query_bram_rd_addr <= query_bram_rd_start_addr;
               end
           end
+          if(state == SET_PARAM_HOLD)begin
+            if(hold_ctr >0) begin
+                hold_ctr <= hold_ctr - 1;
+            end
+            if(set_param != 0) begin
+                set_param_save <= set_param;
+            end
+            set_param <= 0;
+            
+          end
           if (state == SET_PARAM) begin
+              hold_ctr <= 3'd3;
               if (reverse_query) begin
                   query_bram_rd_addr <= query_bram_rd_addr - 1;
               end
@@ -287,7 +320,8 @@ module SmithWatermanArray #(
                   query_bram_rd_addr <= query_bram_rd_addr + 1;
               end
               curr_query_len <= curr_query_len + 1;
-              if (set_param == 0) begin
+              set_param = set_param_save;
+              if (set_param_save == 0) begin
                   set_param <= 1;
                   if ((start_last == 1'b1) && (curr_query_len + 1 == query_length)) begin
                       last <= 1;
@@ -297,9 +331,9 @@ module SmithWatermanArray #(
                   end
               end
               else begin
-                  set_param <= (set_param << 1);
+                  set_param <= (set_param_save << 1);
                   if ((start_last == 1'b1) && (curr_query_len + 1 == query_length)) begin
-                      last <= (set_param << 1);
+                      last <= (set_param_save << 1);
                   end
                   else begin
                       last <= 0;
@@ -308,6 +342,7 @@ module SmithWatermanArray #(
           end
           if (state == STREAM_REF_START) begin
               set_param <= 0;
+              set_param_save <= 0;
               last <= 0;
               curr_ref_len <= 1;
               if (reverse_ref) begin
@@ -318,7 +353,13 @@ module SmithWatermanArray #(
               end
               ref_fifo_rd_en <= 1;
           end
+        if(state == STREAM_REF_HOLD)begin
+            if(hold_ctr >0) begin
+                hold_ctr <= hold_ctr - 1;
+            end
+          end
           if (state == STREAM_REF) begin
+              hold_ctr <= 3'd3;
               init_in_0 <= 1;              
               curr_ref_len <= curr_ref_len + 1;
               if (reverse_ref) begin
@@ -363,7 +404,7 @@ module SmithWatermanArray #(
   assign V_in[0] = V_in_0;
   assign M_in[0] = V_in_0;
   assign T_in[0] = T_in_0; 
-  assign init_in[0] = delayed_init_in_0; 
+  assign init_in[0] = init_in_0 || state == STREAM_REF; 
 
   always @(posedge clk) begin
       if (rst) begin
@@ -382,8 +423,8 @@ module SmithWatermanArray #(
           T_in_0 <= ref_nt; 
           compute_max_in_0 <= (state == COMPUTE_MAX_START);
           if (((next_state == BT_START) && do_traceback) || ((next_state == DONE) && ~do_traceback)) begin
-              ref_max_score_pos <= ref_bram_rd_start_addr + max_ref_mod_out[NUM_PE-1];
-              query_max_score_pos <= query_bram_rd_start_addr + (max_query_mod_out[NUM_PE-1] << LOG_NUM_PE) + max_query_pos_out[NUM_PE-1];
+              ref_max_score_pos <=  max_ref_mod_out[NUM_PE-1];
+              query_max_score_pos <= (max_query_mod_out[NUM_PE-1] << LOG_NUM_PE) + max_query_pos_out[NUM_PE-1];
           end
       end
   end
@@ -495,7 +536,9 @@ module SmithWatermanArray #(
           .dir (pe_dir[k]),
           .dir_addr (pe_dir_addr[k]),
           .dir_valid (pe_dir_valid[k]),
-          .init_out (init_out[k]));
+          .init_out (init_out[k]),
+          .enable_PEs(enable_PEs)
+          );
   end
   endgenerate
 
@@ -600,7 +643,8 @@ module SmithWatermanArray #(
       .V_offset(bt_logic_V_offset),
       .max_V_offset(max_V_offset),
       .num_tb_steps(bt_logic_num_tb_steps),
-      .done(bt_logic_done)
+      .done(bt_logic_done),
+      .dmem_rdy(dmem_write_ready)
   );
 
   generate
@@ -642,25 +686,37 @@ module SmithWatermanArray #(
                   next_state = READ_PARAM_FIFO;
               end
           READ_PARAM_FIFO:
-              next_state = SET_PARAM;
+              next_state = SET_PARAM_HOLD;
+          SET_PARAM_HOLD:
+              if(dmem_read_ready && hold_ctr == 0) begin
+                next_state = SET_PARAM;
+              end
           SET_PARAM:
               //changing the state from one to last so that the last PE's
               //set_param is changed and the state changes at the same time
-              if (set_param[NUM_PE-2] == 1) begin
+              if (set_param_save[NUM_PE-2] == 1) begin
                   next_state = STREAM_REF_START;
+              end else begin 
+                next_state = SET_PARAM_HOLD;
               end
           STREAM_REF_START:
-              next_state = STREAM_REF;
+              next_state = STREAM_REF_HOLD;
+          STREAM_REF_HOLD:
+              if(dmem_read_ready && hold_ctr == 0) begin
+                next_state = STREAM_REF;
+              end
           STREAM_REF:
               if (curr_ref_len >= ref_length ) begin
                   next_state = STREAM_REF_STOP;
+              end else begin 
+                next_state = STREAM_REF_HOLD;
               end
           STREAM_REF_STOP:
               if (curr_query_len >= query_length) begin
                   next_state = STREAM_REF_DONE;
               end
               else begin
-                  next_state = SET_PARAM;
+                  next_state = SET_PARAM_HOLD;
               end
           STREAM_REF_DONE:
               next_state = COMPUTE_MAX_START;

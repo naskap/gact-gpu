@@ -81,7 +81,8 @@ module SmithWatermanPE #(
     output wire init_out,                 // Computation active shift out
     output reg dir_valid,
     output wire [REF_LEN_WIDTH-1:0] dir_addr, 
-    output reg signed [3:0] dir 
+    output reg signed [3:0] dir,
+    input wire enable_PEs
     );
     
     localparam ZERO=0, MATCH=3, VER=1, HOR=2;
@@ -266,35 +267,37 @@ module SmithWatermanPE #(
         
         //actual calculation
         end else begin
-            init <= init_in;
-            T <= T_in;
-            V_diag <= V_in;
-            compute_max_out <= compute_max_in;
-            last_out <= (reg_last | last_in);
+            if(enable_PEs) begin
+                init <= init_in;
+                T <= T_in;
+                V_diag <= V_in;
+                compute_max_out <= compute_max_in;
+                last_out <= (reg_last | last_in);
 
-            if (init_in) begin
-                E <= new_E;
-                F <= new_F;
-                V <= new_V;
-                //M <= ($signed(match_score) >= 0) ? match_score : 0;
-                dir <= new_dir;
-                dir_valid <= 1;
-                curr_ref_pos <= curr_ref_pos + 1;
-                curr_ref_mod <= curr_ref_mod + 1;
-            end else if (compute_max_in) begin
-                if ((((max_V > V_in) || (reg_last == 1'b1))) && (last_in == 1'b0)) begin
-                    V <= max_V;
-                    max_query_pos_out <= PE_ID;
+                if (init_in) begin
+                    E <= new_E;
+                    F <= new_F;
+                    V <= new_V;
+                    //M <= ($signed(match_score) >= 0) ? match_score : 0;
+                    dir <= new_dir;
+                    dir_valid <= 1;
+                    curr_ref_pos <= curr_ref_pos + 1;
+                    curr_ref_mod <= curr_ref_mod + 1;
+                end else if (compute_max_in) begin
+                    if ((((max_V > V_in) || (reg_last == 1'b1))) && (last_in == 1'b0)) begin
+                        V <= max_V;
+                        max_query_pos_out <= PE_ID;
+                    end
+                    else begin
+                        max_query_pos_out <= max_query_pos_in;
+                        V <= V_in;
+                    end
+                    dir_valid <= 0;
+                end else begin
+                    V <= init_V;
+                    E <= init_E;
+                    dir_valid <= 0;
                 end
-                else begin
-                    max_query_pos_out <= max_query_pos_in;
-                    V <= V_in;
-                end
-                dir_valid <= 0;
-            end else begin
-                V <= init_V;
-                E <= init_E;
-                dir_valid <= 0;
             end
         end
     end

@@ -52,10 +52,13 @@ module BTLogic #(
     output reg [REF_LEN_WIDTH-1:0] V_offset,
     input [REF_LEN_WIDTH-1:0] max_V_offset,
     output reg [ADDR_WIDTH+LOG_NUM_PE-1:0] num_tb_steps,
-    output done
+    output done,
+    input dmem_rdy
 );
 
   localparam MAX_PE = (2**LOG_NUM_PE) - 1;
+
+  reg [2:0] hold_ctr;
 
   reg [ADDR_WIDTH-1:0] mod_count;
   reg [1:0] next_pe_state;
@@ -67,7 +70,7 @@ module BTLogic #(
   reg [2:0] state;
   reg [2:0] next_state;
   
-  localparam WAIT=0, BLOCK1=1, BLOCK2=2, CALC=3, DONE=4;
+  localparam WAIT=0, BLOCK1=1, BLOCK2=2, CALC=3, CALC_HOLD=4, DONE=5;
   localparam ZERO=0, M=3, V=1, H=2;
 
   wire [LOG_NUM_PE-1:0] next_pe_decr_mod;
@@ -77,7 +80,7 @@ module BTLogic #(
   wire [REF_LEN_WIDTH-1:0] next_H_offset;
 
   assign done = (state == DONE);
-  assign dir_valid = (state == CALC) && (dir != 0);
+  assign dir_valid = (state == CALC || state == CALC_HOLD) && (dir != 0);
   assign addr_valid = (next_state == CALC);
   assign dir = next_pe_state;
 
@@ -97,6 +100,7 @@ module BTLogic #(
   always @(posedge clk) begin
       if (rst) begin
           state <= WAIT;
+          hold_ctr <= 3'd3;
       end
       else begin
           state <= next_state;
@@ -116,6 +120,7 @@ module BTLogic #(
               BLOCK2: begin
               end
               CALC: begin
+                  hold_ctr <= 3'd3;
                   H_offset <= next_H_offset;
                   V_offset <= next_V_offset;
                   num_tb_steps <= num_tb_steps + (dir != 0);
@@ -176,6 +181,11 @@ module BTLogic #(
                      end
                  end
              end
+            CALC_HOLD: begin
+                if(hold_ctr >0) begin
+                    hold_ctr <= hold_ctr - 1;
+                end
+            end
              DONE: begin
              end
          endcase
@@ -192,12 +202,21 @@ module BTLogic #(
           BLOCK1:
               next_state = BLOCK2;
           BLOCK2:
-              next_state = CALC;
+              next_state = CALC_HOLD;
+
+          CALC_HOLD:
+            if ((next_pe_state == ZERO) || (next_H_offset == max_H_offset) || (next_V_offset == max_V_offset)) begin
+                next_state = DONE;
+            end else if(dmem_rdy && hold_ctr == 0) begin
+                next_state = CALC;
+            end
+
           CALC:
-              if ((next_pe_state == ZERO) || (next_H_offset == max_H_offset) || (next_V_offset == max_V_offset))
-                  next_state = DONE;
-              else
-                  next_state = BLOCK1;
+            if ((next_pe_state == ZERO) || (next_H_offset == max_H_offset) || (next_V_offset == max_V_offset)) begin
+                next_state = DONE;
+            end else begin
+                next_state = BLOCK1;
+            end
           DONE:
               next_state = WAIT;
       endcase

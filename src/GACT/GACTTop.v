@@ -67,20 +67,29 @@ module GACTTop #(
     output reg [DIR_BRAM_ADDR_WIDTH-1:0] dir_total_count,
     output wire [2*NUM_DIR_BLOCK-1:0] dir_data_out,
     output wire dir_valid,
-    output wire [1:0] dir,
+    output reg [1:0] dir,
 
     input wire [REQUEST_ID_WIDTH-1:0] req_id_in,
     output reg [REQUEST_ID_WIDTH-1:0] req_id_out,
 
 
     input wire [2:0] cfg_type,
-    input wire [DIR_BRAM_ADDR_WIDTH-1:0] cfg
+    input wire [7:0] cfg,
 
-    // output wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] dmem_addr,
-    // input  wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] dmem_data,
-    // input  wire dmem_ready,
-    // output wire dmem_valid
+    output wire [7:0] dmem_addr,
+    input  wire [7:0] dmem_data,
+    input  wire dmem_read_ready,
+    output wire dmem_read_valid,
+    input wire dmem_write_ready
   );
+
+    reg dir_wr_en;
+    reg [7:0] dir_wr_offset;
+    wire [7:0] dir_wr_addr = dir_wr_offset + dir_addr_start + 3; // 3 to save room for score, ref_pos, query_pos
+    wire [1:0] dmem_addr_mux_sel;
+    assign dmem_addr = dmem_addr_mux_sel == 2'b00 ? ref_bram_rd_addr :
+                        dmem_addr_mux_sel == 2'b01 ? query_bram_rd_addr :
+                        dir_wr_addr;
 
     // Address configuration type constants
     localparam CFG_NONE       = 3'b000;
@@ -95,10 +104,10 @@ module GACTTop #(
   
   wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] query_bram_addr;
   
-  wire [$clog2(MAX_TILE_SIZE)-1:0] ref_bram_rd_addr;
+  wire [7:0] ref_bram_rd_addr;
   wire [$clog2(MAX_TILE_SIZE)-1:0] query_bram_rd_addr;
   
-  reg [$clog2(MAX_TILE_SIZE)-1:0] reg_ref_bram_rd_addr;
+  reg [7:0] reg_ref_bram_rd_addr;
   reg [$clog2(MAX_TILE_SIZE)-1:0] reg_query_bram_rd_addr;
 
   reg [$clog2(MAX_TILE_SIZE)-1:0] ref_length;
@@ -124,15 +133,14 @@ module GACTTop #(
   reg [12*PE_WIDTH-1:0] reg_in_params;
 
   reg [DIR_BRAM_ADDR_WIDTH-1:0] dir_count;
-  reg dir_wr_en;
+  wire [DIR_BRAM_ADDR_WIDTH-1:0] dir_wr_addr_ignore;
   reg [2*NUM_DIR_BLOCK-1:0] dir_data_in;
-  wire [DIR_BRAM_ADDR_WIDTH-1:0] dir_wr_addr;
 
-  reg [DIR_BRAM_ADDR_WIDTH-1:0] ref_addr_start;
-  reg [DIR_BRAM_ADDR_WIDTH-1:0] ref_len;
-  reg [DIR_BRAM_ADDR_WIDTH-1:0] query_addr_start;
-  reg [DIR_BRAM_ADDR_WIDTH-1:0] query_len;
-  reg [DIR_BRAM_ADDR_WIDTH-1:0] dir_addr_start;
+  reg [7:0] ref_addr_start;
+  reg [7:0] ref_len;
+  reg [7:0] query_addr_start;
+  reg [7:0] query_len;
+  reg [7:0] dir_addr_start;
 
   wire array_done;
   reg rst_array;
@@ -142,49 +150,49 @@ module GACTTop #(
 
   localparam READY=1, ARRAY_START=2, ARRAY_PROCESSING=3, BLOCK=4, DONE=5;
 
-  // Get rid of these later
-  wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] ref_bram_addr;
-  assign ref_bram_addr = (ref_wr_en) ? ref_addr_in - 1 : ref_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
-  assign query_bram_addr = (query_wr_en) ? query_addr_in - 1 : query_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
+//   // Get rid of these later
+//   wire [$clog2(MAX_TILE_SIZE)-BLOCK_WIDTH-1:0] ref_bram_addr;
+//   assign ref_bram_addr = (ref_wr_en) ? ref_addr_in - 1 : ref_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
+//   assign query_bram_addr = (query_wr_en) ? query_addr_in - 1 : query_bram_rd_addr[$clog2(MAX_TILE_SIZE)-1:BLOCK_WIDTH];
 
-  BRAM #(
-      .ADDR_WIDTH($clog2(MAX_TILE_SIZE)-BLOCK_WIDTH),
-      .DATA_WIDTH(8*NUM_BLOCK),
-      .MEM_INIT_FILE(REF_FILENAME)
-  ) ref_bram (
-      .clk(clk),
-      .addr(ref_bram_addr),
-      .write_en(ref_wr_en),
-      .data_in(ref_in),
-      .data_out(ref_bram_data_out)
-  );
+//   BRAM #(
+//       .ADDR_WIDTH($clog2(MAX_TILE_SIZE)-BLOCK_WIDTH),
+//       .DATA_WIDTH(8*NUM_BLOCK),
+//       .MEM_INIT_FILE(REF_FILENAME)
+//   ) ref_bram (
+//       .clk(clk),
+//       .addr(ref_bram_addr),
+//       .write_en(ref_wr_en),
+//       .data_in(ref_in),
+//       .data_out(ref_bram_data_out)
+//   );
 
 
-  BRAM #(
-      .ADDR_WIDTH($clog2(MAX_TILE_SIZE)-BLOCK_WIDTH),
-      .DATA_WIDTH(8*NUM_BLOCK),
-      .MEM_INIT_FILE(QUERY_FILENAME)
-  ) query_bram (
-      .clk(clk),
-      .addr(query_bram_addr),
-      .write_en(query_wr_en),
-      .data_in(query_in),
-      .data_out(query_bram_data_out)
-  );
+//   BRAM #(
+//       .ADDR_WIDTH($clog2(MAX_TILE_SIZE)-BLOCK_WIDTH),
+//       .DATA_WIDTH(8*NUM_BLOCK),
+//       .MEM_INIT_FILE(QUERY_FILENAME)
+//   ) query_bram (
+//       .clk(clk),
+//       .addr(query_bram_addr),
+//       .write_en(query_wr_en),
+//       .data_in(query_in),
+//       .data_out(query_bram_data_out)
+//   );
 
-  DP_BRAM #(
-      .DATA_WIDTH(2*NUM_DIR_BLOCK),
-      .ADDR_WIDTH(DIR_BRAM_ADDR_WIDTH)
-  ) dir_bram (
-      .clk(clk),
+//   DP_BRAM #(
+//       .DATA_WIDTH(2*NUM_DIR_BLOCK),
+//       .ADDR_WIDTH(DIR_BRAM_ADDR_WIDTH)
+//   ) dir_bram (
+//       .clk(clk),
 
-      .raddr (dir_rd_addr),
-      .wr_en (dir_wr_en),
-      .waddr (dir_wr_addr),
+//       .raddr (dir_rd_addr),
+//       .wr_en (dir_wr_en),
+//       .waddr (dir_wr_addr_ignore),
 
-      .data_in (dir_data_in),
-      .data_out (dir_data_out)
-  );
+//       .data_in (dir_data_in),
+//       .data_out (dir_data_out)
+//   );
   
   reg [7:0] ref_array_in;
   reg [7:0] query_array_in;
@@ -264,13 +272,13 @@ module GACTTop #(
       .ref_length (ref_length),
       .query_length (query_length),
 
-      .ref_bram_rd_start_addr(6'b0), 
+      .ref_bram_rd_start_addr(ref_addr_start), 
       .ref_bram_rd_addr(ref_bram_rd_addr),
-      .ref_bram_data_in (ref_array_in),
+      .ref_bram_data_in (dmem_data),
 
-      .query_bram_rd_start_addr(6'b0),
+      .query_bram_rd_start_addr(query_addr_start),
       .query_bram_rd_addr(query_bram_rd_addr),
-      .query_bram_data_in (query_array_in),
+      .query_bram_data_in (dmem_data),
 
       .max_score_threshold(max_score_threshold),
       .start_last(start_last),
@@ -288,6 +296,10 @@ module GACTTop #(
 
       .dir(dir),
       .dir_valid(dir_valid),
+      .dmem_addr_mux_sel(dmem_addr_mux_sel),
+      .dmem_read_valid(dmem_read_valid),
+      .dmem_read_ready(dmem_read_ready),
+      .dmem_write_ready(dmem_write_ready),
 
       .done(array_done)
   );
@@ -296,13 +308,15 @@ module GACTTop #(
   assign done = (state == DONE);
   assign ready = (state == READY) && (~start);
   assign array_start = (state == ARRAY_START);
-  assign dir_wr_addr = (dir_total_count - 1);
+  assign dir_wr_addr_ignore = (dir_total_count - 1);
+  reg dir_valid_update;
 
   always @(posedge clk) begin
       if (rst) begin
           dir_wr_en <= 0;
           rst_array <= 1;
           state <= READY;
+          dir_valid_update <= 0;
       end
       else begin
           state <= next_state;
@@ -327,50 +341,61 @@ module GACTTop #(
                   dir_total_count <= 0;
                   dir_count <= 0;
                   dir_wr_en <= 0;
+                  dir_wr_offset  <= 0;
               end
           end
           if (state == ARRAY_PROCESSING) begin
-              if (dir_valid) begin
                   // TODO
                   if (dir_valid) begin
-                      if (dir_count == 0) begin
-                          dir_data_in <= dir; 
+                      if (!dir_valid_update) begin
+                          if (dir_count == 0) begin
+                              dir_data_in <= dir;
+                          end
+                          else begin
+                              dir_data_in <= (dir_data_in << 2) + dir;
+                          end
+                          if (dir_count == NUM_DIR_BLOCK-1) begin
+                              dir_wr_en <= 1;
+                              dir_total_count <= dir_total_count + 1;
+                              dir_count <= 0;
+                          end
+                          else begin
+                              dir_wr_en <= 0;
+                              dir_count <= dir_count + 1;
+                          end
+                          dir_valid_update <= 1; // latch so we don't re-run while dir_valid stays high
+                          dir_wr_offset <= dir_wr_offset + 1;
                       end
                       else begin
-                          dir_data_in <= (dir_data_in << 2) + dir;
-                      end
-                      if (dir_count == NUM_DIR_BLOCK-1) begin
-                          dir_wr_en <= 1;
-                          dir_total_count <= dir_total_count + 1;
-                          dir_count <= dir_count + 1;
-                          dir_count <= 0;
-                      end
-                      else begin
+                          // Hold outputs stable while dir_valid remains high
                           dir_wr_en <= 0;
-                          dir_count <= dir_count + 1;
                       end
-                  end
-              end
-              else if (array_done) begin
-                  ref_max_pos <= ref_max_score_pos;
-                  query_max_pos <= query_max_score_pos;
-                  num_ref_bases <= H_offset;
-                  num_query_bases <= V_offset;
-                  num_tb_steps <= array_num_tb_steps;
-                  tile_score <= max_score;
-                  rst_array <= 1;
-                  if (dir_count > 0) begin
-                      dir_wr_en <= 1;
-                      dir_total_count <= dir_total_count + 1;
-                      dir_count <= dir_count + 1;
                   end
                   else begin
-                      dir_wr_en <= 0;
+                     
+                      dir_valid_update <= 0;  // Allow next dir_valid pulse to be accepted
+                      if (array_done) begin
+                        ref_max_pos <= ref_max_score_pos;
+                        query_max_pos <= query_max_score_pos;
+                        num_ref_bases <= H_offset;
+                        num_query_bases <= V_offset;
+                        num_tb_steps <= array_num_tb_steps;
+                        tile_score <= max_score;
+                        rst_array <= 1;
+                        if (dir_count > 0) begin
+                            dir_wr_en <= 1;
+                            dir_total_count <= dir_total_count + 1;
+                            dir_count <= dir_count + 1;
+                        end
+                        else begin
+                            dir_wr_en <= 0;
+                        end
+                    end
+                    else begin
+                        dir_wr_en <= 0;
+                    end
                   end
-              end
-              else begin
-                  dir_wr_en <= 0;
-              end
+                end
           end
           if (state == BLOCK) begin
               dir_wr_en <= 0;
@@ -380,7 +405,6 @@ module GACTTop #(
               dir_wr_en <= 0;
           end
       end
-  end
 
   always @(*) 
   begin

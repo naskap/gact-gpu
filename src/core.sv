@@ -73,6 +73,23 @@ module core #(
     reg decoded_pc_mux;                     // Select source of next PC
     reg decoded_ret;
 
+    // 
+    wire [THREADS_PER_BLOCK-1:0] lsu_read_valid;
+    wire [THREADS_PER_BLOCK-1:0] lsu_write_valid;
+    wire [DATA_MEM_ADDR_BITS-1:0] lsu_read_addr [THREADS_PER_BLOCK-1:0];
+    wire [DATA_MEM_ADDR_BITS-1:0] lsu_write_addr [THREADS_PER_BLOCK-1:0];
+    wire [THREADS_PER_BLOCK-1:0] lsu_read_ready = gact_ready ? data_mem_read_ready : '0;
+    wire [THREADS_PER_BLOCK-1:0] lsu_write_ready = gact_ready ? data_mem_write_ready : '0;
+    wire [DATA_MEM_ADDR_BITS-1:0] lsu_write_data [THREADS_PER_BLOCK-1:0];
+
+    
+    wire gact_dmem_read_valid;
+    assign data_mem_read_valid = gact_ready ? lsu_read_valid : gact_dmem_read_valid;
+    assign data_mem_read_address = gact_ready ? lsu_read_addr : gact_dmem_addr;
+    assign data_mem_write_valid = gact_ready ? lsu_write_valid : dir_valid;
+    assign data_mem_write_data = gact_ready ? lsu_write_data : dir;
+    assign data_mem_write_address = gact_ready ? lsu_write_addr : gact_dmem_addr;
+
 
     // Fetcher
     fetcher #(
@@ -135,7 +152,7 @@ module core #(
     );
 
 
-    wire        clear_done      = 1'b0;
+    wire        clear_done      = 1'b1;
     wire [7:0]  align_fields    = 8'(1<<5);
 
     // Triangular score matrix with mismatch = -1, match = 1
@@ -178,15 +195,18 @@ module core #(
     wire ref_wr_en = 1'b0;
     wire [REQUEST_ID_WIDTH-1:0] req_id_in = '0;
     wire [PE_WIDTH-1:0] score_threshold = '0;
-    wire set_params = 1'b0;
     wire [DIR_BRAM_ADDR_WIDTH-1:0] dir_rd_addr = '0;
     wire [1:0] addr_cfg_type = '0;
     wire [DIR_BRAM_ADDR_WIDTH-1:0] addr_cfg = '0;
-    wire gact_start = '0;
 
     wire [7:0] gact_cfg = decoded_gact_config_mux ? rt[0] : decoded_immediate;
 
+    reg set_params;
 
+    wire gact_dmem_read_ready = gact_ready ? 0 : data_mem_read_ready;
+    wire gact_dmem_read_valid;
+    wire [7:0] gact_dmem_addr; // Serves as both read and write addr
+    wire [7:0] dmem_data = data_mem_read_data;
 
     // Outputs from GACTTop
     wire [1:0] dir;
@@ -203,12 +223,30 @@ module core #(
     wire [REQUEST_ID_WIDTH-1:0] req_id_out;
     wire [PE_WIDTH-1:0] tile_score;
 
+    reg gact_start;
+    reg gact_started;
+    always @(posedge clk) begin
+        set_params <= reset; // Trails reset by 1
+        if(instruction[15:8] == 8'b10100101 && gact_started == 1'b0) begin
+            gact_start <= 1'b1;
+            gact_started <= 1'b1;
+        end
+        else if (instruction[15:8] == 8'b10100101 && gact_started == 1'b1)begin
+            gact_start <= 1'b0;
+        end
+        else begin
+            gact_start <= 1'b0;
+            gact_started <= 1'b0;
+        end
+    end
+
     GACTTop #(
       .PE_WIDTH(PE_WIDTH), // Bitwidth of scores
       .BLOCK_WIDTH(BLOCK_WIDTH), // address bits for BRAM
       .MAX_TILE_SIZE(MAX_TILE_SIZE), // 64x64 is the max size -- determines internal BRAM
       .NUM_PE(NUM_PE), 
-      .REQUEST_ID_WIDTH(16) // I think this is just for bookkeeping
+      .REQUEST_ID_WIDTH(16), // I think this is just for bookkeeping
+      .NUM_DIR_BLOCK(4) // So that dir_data_in is 8 bits
     ) gact_instance (
       .clk(clk),
       .rst(reset),
@@ -241,7 +279,12 @@ module core #(
       .req_id_out(req_id_out),
       .tile_score(tile_score), 
       .cfg_type(decoded_gact_config_state),
-      .cfg(gact_cfg)
+      .cfg(gact_cfg),
+      .dmem_read_ready(gact_dmem_read_ready),
+      .dmem_read_valid(gact_dmem_read_valid),
+      .dmem_addr(gact_dmem_addr),
+      .dmem_data(dmem_data),
+      .dmem_write_ready(data_mem_write_ready)
     );
 
     // Dedicated ALU, LSU, registers, & PC unit for each thread this core has capacity for
@@ -269,13 +312,13 @@ module core #(
                 .core_state(core_state),
                 .decoded_mem_read_enable(decoded_mem_read_enable),
                 .decoded_mem_write_enable(decoded_mem_write_enable),
-                .mem_read_valid(data_mem_read_valid[i]),
-                .mem_read_address(data_mem_read_address[i]),
-                .mem_read_ready(data_mem_read_ready[i]),
+                .mem_read_valid(lsu_read_valid[i]),
+                .mem_read_address(lsu_read_addr[i]),
+                .mem_read_ready(lsu_read_ready[i]),
                 .mem_read_data(data_mem_read_data[i]),
-                .mem_write_valid(data_mem_write_valid[i]),
-                .mem_write_address(data_mem_write_address[i]),
-                .mem_write_data(data_mem_write_data[i]),
+                .mem_write_valid(lsu_write_valid[i]),
+                .mem_write_address(lsu_write_addr[i]),
+                .mem_write_data(lsu_write_data[i]),
                 .mem_write_ready(data_mem_write_ready[i]),
                 .rs(rs[i]),
                 .rt(rt[i]),
