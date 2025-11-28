@@ -27,6 +27,7 @@ module alu (
 
     reg [7:0] alu_out_reg;
     assign alu_out = alu_out_reg;
+    wire[7:0] difference = rs - rt;
 
     always @(posedge clk) begin 
         if (reset) begin 
@@ -36,7 +37,8 @@ module alu (
             if (core_state == 3'b101) begin 
                 if (decoded_alu_output_mux == 1) begin 
                     // Set values to compare with NZP register in alu_out[2:0]
-                    alu_out_reg <= {5'b0, (rs - rt > 0), (rs - rt == 0), (rs - rt < 0)};
+                    alu_out_reg <= {5'b0, ((difference != 0) & (~difference[7])), (rs - rt == 0), ((difference != 0) & (difference[7]))};
+                    //alu_out_reg <= {5'b0, (rs - rt > 0), (rs - rt == 0), (rs - rt < 0)};
                 end else begin 
                     // Execute the specified arithmetic instruction
                     case (decoded_alu_arithmetic_mux)

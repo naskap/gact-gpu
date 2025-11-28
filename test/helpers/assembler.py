@@ -3,6 +3,8 @@ def assemble(assembly : str):
     assembly = assembly.splitlines()
 
     opcodes = {
+        'BRp'  : 0b0001,
+        'BRz'  : 0b0001,
         'BRn'  : 0b0001,
         'CMP'  : 0b0010,
         'ADD'  : 0b0011,
@@ -103,7 +105,22 @@ def assemble(assembly : str):
             if label not in labels: 
                 raise ValueError(f"Undefined label: {label}")
 
+            instr = (opcode << 12) | (0b0010 << 8) | (labels[label] & 0xFF)
+        elif mnemonic == 'BRp': 
+            if len(parts) != 2: 
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            label = parts[1]
+            if label not in labels: 
+                raise ValueError(f"Undefined label: {label}")
             instr = (opcode << 12) | (0b1000 << 8) | (labels[label] & 0xFF)
+            print(f"{instr:016b}")
+        elif mnemonic == 'BRz': 
+            if len(parts) != 2: 
+                raise ValueError(f"Invalid operands for {mnemonic}")
+            label = parts[1]
+            if label not in labels: 
+                raise ValueError(f"Undefined label: {label}")
+            instr = (opcode << 12) | (0b0100 << 8) | (labels[label] & 0xFF)
         elif mnemonic == 'CFG_REF_LEN':
             if len(parts) != 2 or not parts[1].startswith('#'):
                 raise ValueError(f"Invalid operands for {mnemonic}")

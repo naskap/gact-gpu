@@ -101,10 +101,10 @@ def format_memory_controller_state(controller_state: str) -> str:
     }
     return controller_state_map[controller_state]
 
-def format_registers(registers: List[str]) -> str:
+def format_registers(registers: List[int]) -> str:
     formatted_registers = []
     for i, reg_value in enumerate(registers):
-        decimal_value = int(reg_value, 2)  # Convert binary string to decimal
+        decimal_value = int(reg_value)  # Convert binary string to decimal
         reg_idx = 15 - i # Register data is provided in reverse order
         formatted_registers.append(f"{format_register(reg_idx)} = {decimal_value}")
     formatted_registers.reverse()
@@ -116,10 +116,15 @@ def format_cycle(dut, cycle_id: int, thread_id: Optional[int] = None):
 
     if(not reduce_verbosity):
         logger.debug(f"\n================================== Cycle {cycle_id} ==================================")
-
     for core in dut.cores:
         # Not exactly accurate, but good enough for now
-        if int(str(dut.thread_count.value), 2) <= core.i.value * dut.THREADS_PER_BLOCK.value:
+        # if int(str(dut.thread_count.value), 2) <= core.i.value * dut.THREADS_PER_BLOCK.value:
+        #     continue
+        i_val = int(str(core.i.value), 2)
+        threads_per_block = int(str(dut.THREADS_PER_BLOCK.value), 2)
+        thread_count = int(str(dut.thread_count.value), 2)
+
+        if thread_count <= i_val * threads_per_block:
             continue
 
         if(not reduce_verbosity):
@@ -127,24 +132,28 @@ def format_cycle(dut, cycle_id: int, thread_id: Optional[int] = None):
 
         instruction = str(core.core_instance.instruction.value)
         for thread in core.core_instance.threads:
-
             if(reduce_verbosity and str(core.core_instance.core_state.value) != "110"):
                 continue
 
             if int(thread.i.value) < int(str(core.core_instance.thread_count.value), 2): # if enabled
                 block_idx = core.core_instance.block_id.value
-                block_dim = int(core.core_instance.THREADS_PER_BLOCK)
-                thread_idx = thread.register_instance.THREAD_ID.value
-                idx = block_idx * block_dim + thread_idx
 
-                rs = int(str(thread.register_instance.rs.value), 2)
-                rt = int(str(thread.register_instance.rt.value), 2)
+                # block_dim = int(core.core_instance.THREADS_PER_BLOCK)
+                block_dim = int(core.core_instance.THREADS_PER_BLOCK.value) # added the .value
+                thread_idx = thread.register_instance.THREAD_ID.value
+                # idx = block_idx * block_dim + thread_idx
+                idx = int(block_idx) * block_dim + int(thread_idx)
+
+                # rs = int(str(thread.register_instance.rs.value), 2)
+                # rt = int(str(thread.register_instance.rt.value), 2)
+                rs = int(thread.register_instance.rs.value.to_signed())
+                rt = int(thread.register_instance.rt.value.to_signed())
 
                 reg_input_mux = int(str(core.core_instance.decoded_reg_input_mux.value), 2)
-                alu_out = int(str(thread.alu_instance.alu_out.value), 2)
+                # alu_out = int(str(thread.alu_instance.alu_out.value), 2)
+                alu_out = int(thread.alu_instance.alu_out.value.to_signed())
                 lsu_out = int(str(thread.lsu_instance.lsu_out.value), 2)
                 constant = int(str(core.core_instance.decoded_immediate.value), 2)
-
                 if (thread_id is None or thread_id == idx):
                     logger.debug(f"\n+-------- Thread {idx} --------+")
 
@@ -153,7 +162,8 @@ def format_cycle(dut, cycle_id: int, thread_id: Optional[int] = None):
                     logger.debug("Core State:", format_core_state(str(core.core_instance.core_state.value)))
                     logger.debug("Fetcher State:", format_fetcher_state(str(core.core_instance.fetcher_state.value)))
                     logger.debug("LSU State:", format_lsu_state(str(thread.lsu_instance.lsu_state.value)))
-                    logger.debug("Registers:", format_registers([str(item.value) for item in thread.register_instance.registers]))
+                    # logger.debug("Registers:", format_registers([str(item.value) for item in thread.register_instance.registers]))
+                    logger.debug("Registers:", format_registers([item.value.to_signed() for item in thread.register_instance.registers]))
                     logger.debug(f"RS = {rs}, RT = {rt}")
 
                     if reg_input_mux == 0:
@@ -164,10 +174,10 @@ def format_cycle(dut, cycle_id: int, thread_id: Optional[int] = None):
                         logger.debug("Constant:", constant)
 
 
-            if(reduce_verbosity):
-                break
+            # if(reduce_verbosity):
+            #     break
         
-        if(reduce_verbosity):
-            break
+        # if(reduce_verbosity):
+        #     break
 
             # logger.debug("Core Done:", str(core.core_instance.done.value))

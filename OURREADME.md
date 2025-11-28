@@ -59,4 +59,17 @@ for j in range(start, end, stride):
                     candidate_pos.append((i, j))
 
 
-We think the best thread level parallelism would be to loop by bin, but ngl its hard. We are going to implement bin-level parallelism in Python and then try to map it onto hw. 
+We think the best thread level parallelism would be to loop by bin. 
+
+Now we have d_soft_parallel, that produces the bin dictionary, which will be stored in memory. This way, we can use each thread of the GPU to run the expensive bin operations on d-soft in parallel. We wrote a draft of this called d_soft_parallel.py
+
+Rena had the idea to compare the SW versions on Open MP to evaluate CPU performance using threads on the CPU. We could compare that to the performance of the GPU. 
+
+As an intermediate step, we broke down the GPU code into gpy_d_soft.py and chat generated gpu_d_soft.c. This helped us develop the test case. 
+
+We got the assembly working for one bin and parallel bins running on multiple cores! thank goodness
+
+
+We found a bug in the assembler and tiny gpu spec. 
+
+Ran OpenMP on Adroit + it was faster. Started making test cases. 
