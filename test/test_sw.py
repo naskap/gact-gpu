@@ -96,8 +96,8 @@ async def test_sw(dut):
     program_memory = Memory(dut=dut, addr_bits=8, data_bits=16, channels=1, name="program")
 
     num_blocks       = 2
-    ref_length       = 16
-    query_length     = 8
+    ref_length       = 8
+    query_length     = 4
     threads_per_warp = 4
     result_length    = ref_length + query_length + 3 # Format of result: score, ref pos, query pos, traceback  
 

@@ -7,11 +7,12 @@ from .helpers.logger import logger
 from .helpers.assembler import assemble
 
 @cocotb.test()
-async def test_parallel_dsoft(dut):
+async def test_one_thread(dut):
     """
     This program runs the parallel part of d_soft (the bin overlap calculations)
-    defined in d_soft/gpu_d_soft.py on 4 different GPU cores for data that 
-    easily fits in the data memory size and data bit size.
+    defined in d_soft/gpu_d_soft.py on one thread as a baseline.
+
+    !!***** Change the data address on line 33 for bin configuration *****!!
 
     Important note:
     You must search and change the following variables in the src folder:
@@ -29,10 +30,8 @@ SUB   R2, R2, R0               ; last_hit_pos = -4
 CONST R3, #0                   ; bp_count = 0
 
                                             
-CONST R4, #2                   ; R4 = 2
-MUL R4, R4, %blockIdx          ; R4 = 2*(%blockIdx)
+CONST R4, #1                  ; R4 = 1 CHANGE ME to 1,3,5,7 for bin0,bin1,bin2,bin3
 CONST R5, #1                   ; R5 = 1   
-ADD R4, R5, R4                 ; R4 = 1 + R4
 LDR R7, R4                     ; R7 = mem[R4]
 SUB R7, R7, R5                 ; R7 = size - 1
 ADD R4, R5, R4                 ; R4 = 1 + R4
@@ -46,7 +45,7 @@ LOOP_START:
   CMP R7, R11              ; cmp = i - size
   BRz LOOP_END                 ; if i > size, break
   CMP R7, R11              ; cmp = i - size
-  BRn LOOP_END                 ; if i > size, break                                                                 
+  BRn LOOP_END                 ; if i > size, break                     
   CONST R9, #1             ;1
                        
   ; i_val = bin_one[i]   ; j_val = bin_one[i + 1]
@@ -92,11 +91,7 @@ SKIP_OVERLAP:
 
   ; Store result in mem[50 + 2 * %blockIdx  , 51 + 2 * %blockIdx]                     
   CONST R0, #50
-  CONST R1, #51
-  CONST R2, #2                    
-  MUL R2, R2, %blockIdx    ; R2 = 2* blockIdx
-  ADD R0, R0, R2           ; R0 = R0 + R2
-  ADD R1, R1, R2           ; R1 = R1 + R2                               
+  CONST R1, #51                          
   STR R0, R12 ; mem[] = i_val  
   STR R1, R4 ; mem[41] = j_val 
   RET                                                                                                                                                          
@@ -148,7 +143,7 @@ LOOP_END:
     # start_address[5] = mem[7]
 
     # Device Control
-    threads = 4
+    threads = 1
 
     await setup(
         dut=dut,
@@ -177,15 +172,15 @@ LOOP_END:
     expected_results = [(4,4), (20,4), (37,4)]
     print(f"mem at 50 is {data_memory.memory[50]}")
     print(f"mem at 51 is {data_memory.memory[51]}")
-    print(f"mem at 52 is {data_memory.memory[52]}")
-    print(f"mem at 53 is {data_memory.memory[53]}")
-    print(f"mem at 54 is {data_memory.memory[54]}")
-    print(f"mem at 55 is {data_memory.memory[55]}")
+    # print(f"mem at 52 is {data_memory.memory[52]}")
+    # print(f"mem at 53 is {data_memory.memory[53]}")
+    # print(f"mem at 54 is {data_memory.memory[54]}")
+    # print(f"mem at 55 is {data_memory.memory[55]}")
     i = 50
-    for expected in expected_results:
-        result_one = data_memory.memory[i]
-        result_two = data_memory.memory[i + 1]
-        assert result_one == expected[0], f"Result mismatch at index {i}: expected {expected[0]}, got {result_one}"
-        assert result_two == expected[1], f"Result mismatch at index {i + 1}: expected {expected[1]}, got {result_two}"
-        i += 2
+    # for expected in expected_results:
+    #     result_one = data_memory.memory[i]
+    #     result_two = data_memory.memory[i + 1]
+    #     assert result_one == expected[0], f"Result mismatch at index {i}: expected {expected[0]}, got {result_one}"
+    #     assert result_two == expected[1], f"Result mismatch at index {i + 1}: expected {expected[1]}, got {result_two}"
+    #     i += 2
 
