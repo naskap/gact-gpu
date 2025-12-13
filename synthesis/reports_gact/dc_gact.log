@@ -1,0 +1,888 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version R-2020.09-SP5-1 for linux64 - Jun 03, 2021 
+
+                    Copyright (c) 1988 - 2021 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+# ===============================
+# dc_gact.tcl
+# Run from project root
+# ===============================
+# ---------- User config ----------
+set DESIGN_NAME gpu
+gpu
+set REPORT_DIR ./reports_gact
+./reports_gact
+set WORK_DIR   ./work_gact
+./work_gact
+# ---------- Technology library ----------
+set TARGET_LIB "./stdcells.db"
+./stdcells.db
+set LINK_LIB   "* $TARGET_LIB"
+* ./stdcells.db
+# ---------- Setup ----------
+file mkdir $REPORT_DIR
+file mkdir $WORK_DIR
+define_design_lib WORK -path $WORK_DIR
+1
+set_app_var target_library $TARGET_LIB
+./stdcells.db
+set_app_var link_library   $LINK_LIB
+* ./stdcells.db
+set_app_var search_path    [list . ./gact]
+. ./gact
+set hdlin_sv_enable_vpp true
+true
+set verilogout_no_tri true
+true
+# ---------- Read RTL ----------
+puts "INFO: Reading RTL files:"
+INFO: Reading RTL files:
+puts "  gact/gpu.v"
+  gact/gpu.v
+puts "  gact/alu.v"
+  gact/alu.v
+read_file -format sverilog {gact/gpu.v gact/alu.v}
+Loading db file '/home/rf5447/stdcells.db'
+Loading db file '/usr/licensed/synopsys-2021/syn/R-2020.09-SP5-1/libraries/syn/gtech.db'
+Loading db file '/usr/licensed/synopsys-2021/syn/R-2020.09-SP5-1/libraries/syn/standard.sldb'
+  Loading link library 'NangateOpenCellLibrary'
+  Loading link library 'gtech'
+Loading sverilog files: '/home/rf5447/gact/gpu.v' '/home/rf5447/gact/alu.v' 
+Detecting input file type automatically (-rtl or -netlist).
+Reading with Presto HDL Compiler (equivalent to -rtl option).
+Running PRESTO HDLC
+Compiling source file /home/rf5447/gact/gpu.v
+Warning:  /home/rf5447/gact/gpu.v:1083: The statements in initial blocks are ignored. (VER-281)
+Compiling source file /home/rf5447/gact/alu.v
+Warning:  /home/rf5447/gact/alu.v:2: Overwriting existing design element 'alu' with newer version. (VER-64)
+Warning:  /home/rf5447/gact/gpu.v:89: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/rf5447/gact/gpu.v:97: signed to unsigned assignment occurs. (VER-318)
+
+Statistics for case statements in always block at line 54 in file
+	'/home/rf5447/gact/gpu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            77            |     no/auto      |
+===============================================
+
+Inferred memory devices in process
+	in routine controller line 54 in file
+		'/home/rf5447/gact/gpu.v'.
+========================================================================================
+|        Register Name         |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+========================================================================================
+|      mem_read_valid_reg      | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|     mem_read_address_reg     | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|     mem_write_valid_reg      | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|    mem_write_address_reg     | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|      mem_write_data_reg      | Flip-flop |  16   |  Y  | N  | N  | N  | N  | N  | N  |
+|   consumer_read_ready_reg    | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|    consumer_read_data_reg    | Flip-flop |  64   |  Y  | N  | N  | N  | N  | N  | N  |
+|   consumer_write_ready_reg   | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|     current_consumer_reg     | Flip-flop |   2   |  Y  | N  | N  | N  | N  | N  | N  |
+|     controller_state_reg     | Flip-flop |   3   |  Y  | N  | N  | N  | N  | N  | N  |
+| channel_serving_consumer_reg | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+========================================================================================
+Statistics for MUX_OPs
+======================================================
+| block name/line  | Inputs | Outputs | # sel inputs |
+======================================================
+|  controller/126  |   4    |    2    |      2       |
+======================================================
+
+Inferred memory devices in process
+	in routine core line 394 in file
+		'/home/rf5447/gact/gpu.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   set_params_reg    | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  gact_started_reg   | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|   gact_start_reg    | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine dcr line 550 in file
+		'/home/rf5447/gact/gpu.v'.
+======================================================================================
+|       Register Name        |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+======================================================================================
+| device_conrol_register_reg | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+======================================================================================
+
+Statistics for case statements in always block at line 625 in file
+	'/home/rf5447/gact/gpu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           659            |     no/auto      |
+|           698            |     no/auto      |
+===============================================
+
+Inferred memory devices in process
+	in routine decoder line 625 in file
+		'/home/rf5447/gact/gpu.v'.
+==========================================================================================
+|         Register Name          |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+==========================================================================================
+|  decoded_gact_config_mux_reg   | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|     decoded_rd_address_reg     | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|     decoded_rs_address_reg     | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|     decoded_rt_address_reg     | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|     decoded_immediate_reg      | Flip-flop |   9   |  Y  | N  | N  | N  | N  | N  | N  |
+|        decoded_nzp_reg         | Flip-flop |   3   |  Y  | N  | N  | N  | N  | N  | N  |
+|  decoded_reg_write_enable_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  decoded_mem_read_enable_reg   | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  decoded_mem_write_enable_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  decoded_nzp_write_enable_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|   decoded_reg_input_mux_reg    | Flip-flop |   2   |  Y  | N  | N  | N  | N  | N  | N  |
+| decoded_alu_arithmetic_mux_reg | Flip-flop |   2   |  Y  | N  | N  | N  | N  | N  | N  |
+|   decoded_alu_output_mux_reg   | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|       decoded_pc_mux_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|        decoded_ret_reg         | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| decoded_gact_config_state_reg  | Flip-flop |   3   |  Y  | N  | N  | N  | N  | N  | N  |
+==========================================================================================
+
+Inferred memory devices in process
+	in routine dispatch line 756 in file
+		'/home/rf5447/gact/gpu.v'.
+=================================================================================
+|     Register Name     |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+=================================================================================
+|   core_block_id_reg   | Flip-flop |  32   |  Y  | N  | N  | N  | N  | N  | N  |
+|       done_reg        | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| blocks_dispatched_reg | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|    blocks_done_reg    | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|  start_execution_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| core_thread_count_reg | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|    core_start_reg     | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|    core_reset_reg     | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+=================================================================================
+
+Statistics for case statements in always block at line 836 in file
+	'/home/rf5447/gact/gpu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           844            |     no/auto      |
+===============================================
+
+Inferred memory devices in process
+	in routine fetcher line 836 in file
+		'/home/rf5447/gact/gpu.v'.
+================================================================================
+|    Register Name     |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+================================================================================
+|   instruction_reg    | Flip-flop |  16   |  Y  | N  | N  | N  | N  | N  | N  |
+|  fetcher_state_reg   | Flip-flop |   3   |  Y  | N  | N  | N  | N  | N  | N  |
+|  mem_read_valid_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| mem_read_address_reg | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+================================================================================
+
+Inferred memory devices in process
+	in routine gpu line 1028 in file
+		'/home/rf5447/gact/gpu.v'.
+=============================================================================================
+|           Register Name           |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+=============================================================================================
+|        lsu_read_valid_reg         | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|       lsu_read_address_reg        | Flip-flop |  32   |  Y  | N  | N  | N  | N  | N  | N  |
+|        lsu_write_valid_reg        | Flip-flop |   4   |  Y  | N  | N  | N  | N  | N  | N  |
+|       lsu_write_address_reg       | Flip-flop |  32   |  Y  | N  | N  | N  | N  | N  | N  |
+|        lsu_write_data_reg         | Flip-flop |  64   |  Y  | N  | N  | N  | N  | N  | N  |
+| cores[0].core_lsu_read_ready_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  cores[0].core_lsu_read_data_reg  | Flip-flop |  16   |  Y  | N  | N  | N  | N  | N  | N  |
+| cores[0].core_lsu_write_ready_reg | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| cores[1].core_lsu_read_ready_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  cores[1].core_lsu_read_data_reg  | Flip-flop |  16   |  Y  | N  | N  | N  | N  | N  | N  |
+| cores[1].core_lsu_write_ready_reg | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| cores[2].core_lsu_read_ready_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  cores[2].core_lsu_read_data_reg  | Flip-flop |  16   |  Y  | N  | N  | N  | N  | N  | N  |
+| cores[2].core_lsu_write_ready_reg | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| cores[3].core_lsu_read_ready_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  cores[3].core_lsu_read_data_reg  | Flip-flop |  16   |  Y  | N  | N  | N  | N  | N  | N  |
+| cores[3].core_lsu_write_ready_reg | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+=============================================================================================
+
+Statistics for case statements in always block at line 1131 in file
+	'/home/rf5447/gact/gpu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           1143           |    auto/auto     |
+|           1163           |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine lsu line 1131 in file
+		'/home/rf5447/gact/gpu.v'.
+=================================================================================
+|     Register Name     |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+=================================================================================
+|  mem_write_data_reg   | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|     lsu_state_reg     | Flip-flop |   2   |  Y  | N  | N  | N  | N  | N  | N  |
+|      lsu_out_reg      | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|  mem_read_valid_reg   | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| mem_read_address_reg  | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|  mem_write_valid_reg  | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+| mem_write_address_reg | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+=================================================================================
+
+Inferred memory devices in process
+	in routine pc line 1212 in file
+		'/home/rf5447/gact/gpu.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     next_pc_reg     | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       nzp_reg       | Flip-flop |   3   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Statistics for case statements in always block at line 1277 in file
+	'/home/rf5447/gact/gpu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           1306           |     no/auto      |
+===============================================
+
+Inferred memory devices in process
+	in routine registers line 1277 in file
+		'/home/rf5447/gact/gpu.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       rs_reg        | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       rt_reg        | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|    registers_reg    | Flip-flop |  128  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+======================================================
+| block name/line  | Inputs | Outputs | # sel inputs |
+======================================================
+|  registers/1301  |   16   |    8    |      4       |
+|  registers/1302  |   16   |    8    |      4       |
+======================================================
+
+Statistics for case statements in always block at line 1352 in file
+	'/home/rf5447/gact/gpu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           1361           |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine scheduler line 1352 in file
+		'/home/rf5447/gact/gpu.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   core_state_reg    | Flip-flop |   3   |  Y  | N  | N  | N  | N  | N  | N  |
+|      done_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|   current_pc_reg    | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Statistics for case statements in always block at line 1440 in file
+	'/home/rf5447/gact/gpu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           1448           |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine alu line 1440 in file
+		'/home/rf5447/gact/gpu.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   alu_out_reg_reg   | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+Current design is now '/home/rf5447/gact/controller.db:controller'
+Loaded 12 designs.
+Current design is 'controller'.
+controller core dcr decoder dispatch fetcher gpu lsu pc registers scheduler alu
+# ---------- Elaborate ----------
+elaborate $DESIGN_NAME
+Error: Cannot find the design 'gpu' in the library 'WORK'. (LBR-0)
+0
+current_design $DESIGN_NAME
+Current design is 'gpu'.
+{gpu}
+link
+
+  Linking design 'gpu'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (12 designs)              /home/rf5447/gact/gpu.db, etc
+  NangateOpenCellLibrary (library) /home/rf5447/stdcells.db
+
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=4". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Information: Building the design 'GACTTop' instantiated from design 'core' with
+	the parameters "PE_WIDTH=10,BLOCK_WIDTH=3,MAX_TILE_SIZE=64,NUM_PE=4,REQUEST_ID_WIDTH=16,NUM_DIR_BLOCK=4". (HDL-193)
+Warning: Cannot find the design 'GACTTop' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core'. (LINK-5)
+0
+# ---------- Constraints ----------
+create_clock -name clk -period 1.0 [get_ports clk]
+Warning: Design 'gpu' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+set_clock_uncertainty 0.1 [get_clocks clk]
+Warning: Design 'gpu' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Warning: Design 'gpu' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+set_input_delay  0.1 -clock clk [all_inputs]
+Warning: Design 'gpu' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+set_output_delay 0.1 -clock clk [all_outputs]
+Warning: Design 'gpu' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+set_max_transition 0.15 [current_design]
+Current design is 'gpu'.
+1
+set_max_fanout 10 [current_design]
+Current design is 'gpu'.
+1
+# ---------- Compile ----------
+compile_ultra
+Loading db file '/usr/licensed/synopsys-2021/syn/R-2020.09-SP5-1/libraries/syn/dw_foundation.sldb'
+Information: Failed to find dw_foundation.sldb in the user defined search_path, load it from 'Synopsys Root'. (UISN-70)
+Warning: DesignWare synthetic library dw_foundation.sldb is added to the synthetic_library in the current command. (UISN-40)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=4". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Information: Building the design 'GACTTop' instantiated from design 'core' with
+	the parameters "PE_WIDTH=10,BLOCK_WIDTH=3,MAX_TILE_SIZE=64,NUM_PE=4,REQUEST_ID_WIDTH=16,NUM_DIR_BLOCK=4". (HDL-193)
+Warning: Cannot find the design 'GACTTop' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core'. (LINK-5)
+Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core'. (LINK-5)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | R-2020.09-DWBB_202009.5 |     *     |
+| Licensed DW Building Blocks        | R-2020.09-DWBB_202009.5 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 608 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+Information: Uniquified 4 instances of design 'core'. (OPT-1056)
+Information: Uniquified 4 instances of design 'fetcher'. (OPT-1056)
+Information: Uniquified 4 instances of design 'scheduler'. (OPT-1056)
+  Simplifying Design 'gpu'
+
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=4". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_3'. (LINK-5)
+Information: Building the design 'GACTTop' instantiated from design 'core_3' with
+	the parameters "PE_WIDTH=10,BLOCK_WIDTH=3,MAX_TILE_SIZE=64,NUM_PE=4,REQUEST_ID_WIDTH=16,NUM_DIR_BLOCK=4". (HDL-193)
+Warning: Cannot find the design 'GACTTop' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
+Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_3'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_2'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_1'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_0'. (LINK-5)
+Loaded alib file './alib-52/stdcells.db.alib'
+  Building model 'DW01_NAND2'
+Information: Ungrouping 0 of 15 hierarchies before Pass 1 (OPT-775)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'gpu'
+  Processing 'dispatch'
+Information: Added key list 'DesignWare' to design 'dispatch'. (DDB-72)
+ Implement Synthetic for 'dispatch'.
+  Processing 'core_0'
+  Processing 'fetcher_0'
+Information: The register 'fetcher_state_reg[2]' is a constant and will be removed. (OPT-1206)
+  Processing 'scheduler_0'
+  Processing 'dcr'
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=4". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
+Information: Building the design 'GACTTop' instantiated from design 'core_0' with
+	the parameters "PE_WIDTH=10,BLOCK_WIDTH=3,MAX_TILE_SIZE=64,NUM_PE=4,REQUEST_ID_WIDTH=16,NUM_DIR_BLOCK=4". (HDL-193)
+Warning: Cannot find the design 'GACTTop' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
+Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_0'. (LINK-5)
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: Complementing port 'gact_ready' in design 'scheduler_3'.
+	 The new name of the port is 'gact_ready_BAR'. (OPT-319)
+Information: Complementing port 'gact_ready' in design 'scheduler_0'.
+	 The new name of the port is 'gact_ready_BAR'. (OPT-319)
+Information: Complementing port 'gact_ready' in design 'scheduler_1'.
+	 The new name of the port is 'gact_ready_BAR'. (OPT-319)
+Information: Complementing port 'gact_ready' in design 'scheduler_2'.
+	 The new name of the port is 'gact_ready_BAR'. (OPT-319)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+  Mapping Optimization (Phase 2)
+  Mapping Optimization (Phase 3)
+  Mapping Optimization (Phase 4)
+  Mapping Optimization (Phase 5)
+  Mapping Optimization (Phase 6)
+Information: The register 'dispatch_instance/core_thread_count_reg[3]' is a constant and will be removed. (OPT-1206)
+Information: The register 'dispatch_instance/core_thread_count_reg[1]' is a constant and will be removed. (OPT-1206)
+Information: The register 'dispatch_instance/core_thread_count_reg[2]' is a constant and will be removed. (OPT-1206)
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:12    3668.1      0.81      21.5     230.3                           76425.7344
+    0:00:12    3653.2      0.98      24.8     241.3                           76094.8203
+
+  Beginning Constant Register Removal
+  -----------------------------------
+    0:00:12    3653.2      0.98      24.8     241.3                           76094.8203
+    0:00:12    3653.2      0.98      24.8     241.3                           76094.8203
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
+
+  Beginning Isolate Ports
+  -----------------------
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:13    3488.3      0.91      22.4     241.3                           68614.4375
+    0:00:14    3559.3      0.66      17.2     225.3                           71445.3281
+    0:00:14    3559.3      0.66      17.2     225.3                           71445.3281
+    0:00:15    3559.1      0.66      17.2     224.3                           71365.9922
+Information: The register 'dispatch_instance/core_thread_count_reg[0]' is a constant and will be removed. (OPT-1206)
+    0:00:15    3543.1      0.66      17.1     219.3                           71088.1094
+    0:00:15    3542.6      0.66      17.2     219.3                           71077.3984
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+    0:00:15    3510.9      0.65      16.6     217.3                           69903.3828
+    0:00:15    3510.4      0.65      16.5     217.3                           69838.3516
+    0:00:15    3510.4      0.65      16.5     217.3                           69838.3516
+    0:00:16    3512.8      0.65      16.2     217.3                           69983.9844
+    0:00:16    3512.8      0.65      16.2     217.3                           69983.9844
+    0:00:17    3514.4      0.65      16.1     223.3                           70061.0000
+    0:00:17    3514.4      0.65      16.1     223.3                           70061.0000
+    0:00:17    3514.9      0.65      16.1     223.3                           70096.9922
+    0:00:17    3514.9      0.65      16.1     223.3                           70096.9922
+    0:00:17    3514.9      0.65      16.1     223.3                           70096.9922
+    0:00:17    3514.9      0.65      16.1     223.3                           70096.9922
+    0:00:18    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:18    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:19    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:19    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:19    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:19    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:20    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:20    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:20    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:20    3517.6      0.64      15.9     224.3                           70206.3672
+    0:00:20    3517.6      0.64      15.9     224.3                           70206.3672
+
+
+  Beginning Design Rule Fixing  (max_transition)  (max_fanout)  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:20    3517.6      0.64      15.9     224.3                           70206.3672
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+  Global Optimization (Phase 34)
+    0:00:21    3560.7      0.59      14.4       3.0 dispatch_instance/blocks_dispatched_reg[2]/D 71153.4531
+    0:00:21    3566.0      0.58      14.2       0.0 dispatch_instance/blocks_dispatched_reg[1]/D 71181.5234
+    0:00:21    3565.2      0.58      14.2       0.0                           71138.5859
+    0:00:23    3565.5      0.58      14.2       0.0                           71168.5078
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:23    3565.5      0.58      14.2       0.0                           71168.5078
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+  Global Optimization (Phase 43)
+  Global Optimization (Phase 44)
+  Global Optimization (Phase 45)
+  Global Optimization (Phase 46)
+  Global Optimization (Phase 47)
+    0:00:23    3542.1      0.57      14.0       0.0                           70347.8828
+    0:00:24    3552.7      0.57      14.0       0.0                           70800.7422
+    0:00:24    3552.7      0.57      14.0       0.0                           70800.7422
+    0:00:24    3553.5      0.57      14.0       0.0                           70886.7656
+    0:00:24    3553.5      0.57      14.0       0.0                           70886.7656
+    0:00:25    3553.5      0.57      14.0       0.0                           70886.7656
+    0:00:25    3553.5      0.57      14.0       0.0                           70886.7656
+    0:00:25    3554.6      0.57      14.0       0.0                           70966.3984
+    0:00:25    3554.6      0.57      14.0       0.0                           70966.3984
+    0:00:26    3554.6      0.57      14.0       0.0                           70966.3984
+    0:00:26    3554.6      0.57      14.0       0.0                           70966.3984
+    0:00:26    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:26    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:27    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:27    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:27    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:27    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:28    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:28    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:28    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:28    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:28    3560.4      0.57      13.9       0.0                           71216.9453
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:28    3560.4      0.57      13.9       0.0                           71216.9453
+    0:00:28    3541.5      0.57      14.0       0.0                           69983.5547
+    0:00:29    3534.3      0.57      14.0       0.0                           69836.2891
+    0:00:29    3534.3      0.57      14.0       0.0                           69836.2891
+    0:00:29    3537.0      0.57      13.9       0.0                           70127.0703
+    0:00:29    3533.5      0.57      13.8       0.0                           69966.1484
+    0:00:29    3534.1      0.57      13.9       0.0                           70014.3984
+    0:00:29    3534.1      0.57      13.9       0.0                           70014.3984
+    0:00:29    3533.8      0.57      13.8       0.0                           69992.7734
+    0:00:29    3533.8      0.57      13.8       0.0                           69992.7734
+    0:00:29    3534.6      0.57      13.9       0.0                           70048.4609
+    0:00:29    3533.5      0.57      13.8       0.0                           69951.8828
+Loading db file '/home/rf5447/stdcells.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=4". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_3'. (LINK-5)
+Information: Building the design 'GACTTop' instantiated from design 'core_3' with
+	the parameters "PE_WIDTH=10,BLOCK_WIDTH=3,MAX_TILE_SIZE=64,NUM_PE=4,REQUEST_ID_WIDTH=16,NUM_DIR_BLOCK=4". (HDL-193)
+Warning: Cannot find the design 'GACTTop' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
+Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_3'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_2'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_1'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_0'. (LINK-5)
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated black box outputs. (PWR-428)
+1
+# ---------- Reports ----------
+report_area   > $REPORT_DIR/area.rpt
+report_power  > $REPORT_DIR/power.rpt
+report_timing > $REPORT_DIR/timing.rpt
+# ---------- Save ----------
+write -format ddc -hierarchy -output $REPORT_DIR/${DESIGN_NAME}.ddc
+Warning: Design 'gpu' has '5' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Writing ddc file './reports_gact/gpu.ddc'.
+1
+quit
+
+Memory usage for this session 160 Mbytes.
+Memory usage for this session including child processes 160 Mbytes.
+CPU usage for this session 32 seconds ( 0.01 hours ).
+Elapsed time for this session 34 seconds ( 0.01 hours ).
+
+Thank you...

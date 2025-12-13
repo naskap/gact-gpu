@@ -1,0 +1,53 @@
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : gpu
+Version: R-2020.09-SP5-1
+Date   : Sat Dec 13 14:22:50 2025
+****************************************
+
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/rf5447/stdcells.db)
+
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+gpu                    5K_hvratio_1_1    NangateOpenCellLibrary
+
+
+Global Operating Voltage = 1.1  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+  Cell Internal Power  =   7.1586 mW    (1%)
+  Net Switching Power  =   1.0779  W   (99%)
+                         ---------
+Total Dynamic Power    =   1.0850  W  (100%)
+
+Cell Leakage Power     = 243.7215 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network    869.2145        1.0778e+06        1.1346e+05        1.0787e+06  (  99.40%)
+register       6.2492e+03           44.0254        8.4216e+04        6.3775e+03  (   0.59%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational     40.1125           45.0305        4.6041e+04          131.1842  (   0.01%)
+--------------------------------------------------------------------------------------------------
+Total          7.1586e+03 uW     1.0779e+06 uW     2.4372e+05 nW     1.0853e+06 uW
+1

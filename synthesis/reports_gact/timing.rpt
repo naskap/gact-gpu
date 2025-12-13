@@ -1,0 +1,85 @@
+Warning: Design 'gpu' has '5' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : gpu
+Version: R-2020.09-SP5-1
+Date   : Sat Dec 13 14:20:49 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: dcr_instance/device_conrol_register_reg[3]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: dispatch_instance/blocks_dispatched_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  gpu                5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  dcr_instance/device_conrol_register_reg[3]/CK (DFF_X1)
+                                                          0.00       0.00 r
+  dcr_instance/device_conrol_register_reg[3]/Q (DFF_X1)
+                                                          0.09       0.09 r
+  dcr_instance/thread_count[3] (dcr)                      0.00       0.09 r
+  dispatch_instance/thread_count[3] (dispatch)            0.00       0.09 r
+  dispatch_instance/U171/ZN (INV_X1)                      0.02       0.11 f
+  dispatch_instance/U9/ZN (OR2_X2)                        0.05       0.16 f
+  dispatch_instance/U172/ZN (NAND3_X1)                    0.03       0.19 r
+  dispatch_instance/U176/ZN (AND3_X1)                     0.05       0.24 r
+  dispatch_instance/U186/ZN (NAND3_X1)                    0.03       0.27 f
+  dispatch_instance/U132/ZN (AND2_X2)                     0.05       0.32 f
+  dispatch_instance/U248/Z (MUX2_X1)                      0.09       0.41 r
+  dispatch_instance/U270/ZN (OAI21_X1)                    0.03       0.44 f
+  dispatch_instance/U271/ZN (AND2_X1)                     0.04       0.48 f
+  dispatch_instance/U278/ZN (OAI21_X1)                    0.04       0.52 r
+  dispatch_instance/U279/ZN (NAND2_X1)                    0.04       0.56 f
+  dispatch_instance/U89/ZN (OR2_X1)                       0.06       0.62 f
+  dispatch_instance/U113/Z (BUF_X1)                       0.04       0.66 f
+  dispatch_instance/U338/ZN (OR2_X1)                      0.06       0.72 f
+  dispatch_instance/U339/ZN (OAI211_X1)                   0.04       0.76 r
+  dispatch_instance/U340/ZN (OR2_X1)                      0.04       0.81 r
+  dispatch_instance/U341/ZN (NAND4_X1)                    0.05       0.86 f
+  dispatch_instance/U342/ZN (AOI21_X1)                    0.07       0.92 r
+  dispatch_instance/U133/ZN (OR2_X2)                      0.06       0.98 r
+  dispatch_instance/U422/ZN (OR2_X1)                      0.04       1.02 r
+  dispatch_instance/U425/ZN (AND2_X1)                     0.04       1.06 r
+  dispatch_instance/U428/ZN (NAND2_X1)                    0.03       1.09 f
+  dispatch_instance/U429/ZN (AND2_X1)                     0.04       1.12 f
+  dispatch_instance/U432/ZN (OAI21_X1)                    0.05       1.18 r
+  dispatch_instance/U434/ZN (NAND4_X1)                    0.04       1.22 f
+  dispatch_instance/U435/ZN (AND2_X1)                     0.04       1.26 f
+  dispatch_instance/U152/ZN (NAND2_X1)                    0.03       1.29 r
+  dispatch_instance/U140/ZN (AND2_X1)                     0.06       1.35 r
+  dispatch_instance/U561/ZN (OR2_X1)                      0.04       1.39 r
+  dispatch_instance/U564/ZN (NAND3_X1)                    0.03       1.42 f
+  dispatch_instance/blocks_dispatched_reg[1]/D (DFF_X1)
+                                                          0.01       1.43 f
+  data arrival time                                                  1.43
+
+  clock clk (rise edge)                                   1.00       1.00
+  clock network delay (ideal)                             0.00       1.00
+  clock uncertainty                                      -0.10       0.90
+  dispatch_instance/blocks_dispatched_reg[1]/CK (DFF_X1)
+                                                          0.00       0.90 r
+  library setup time                                     -0.04       0.86
+  data required time                                                 0.86
+  --------------------------------------------------------------------------
+  data required time                                                 0.86
+  data arrival time                                                 -1.43
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.57
+
+
+1

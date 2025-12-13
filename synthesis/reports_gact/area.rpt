@@ -1,0 +1,87 @@
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=4". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_3'. (LINK-5)
+Information: Building the design 'GACTTop' instantiated from design 'core_3' with
+	the parameters "PE_WIDTH=10,BLOCK_WIDTH=3,MAX_TILE_SIZE=64,NUM_PE=4,REQUEST_ID_WIDTH=16,NUM_DIR_BLOCK=4". (HDL-193)
+Warning: Cannot find the design 'GACTTop' in the library 'WORK'. (LBR-1)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_3'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_2'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_1'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
+Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
+Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_3'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_2'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_1'. (LINK-5)
+Warning: Unable to resolve reference 'GACTTop' in 'core_0'. (LINK-5)
+ 
+****************************************
+Report : area
+Design : gpu
+Version: R-2020.09-SP5-1
+Date   : Sat Dec 13 14:20:49 2025
+****************************************
+
+Information: Updating design information... (UID-85)
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/rf5447/stdcells.db)
+
+Number of ports:                         1050
+Number of nets:                          3616
+Number of cells:                         1952
+Number of combinational cells:           1438
+Number of sequential cells:               468
+Number of macros/black boxes:               0
+Number of buf/inv:                        397
+Number of references:                       9
+
+Combinational area:               1529.766010
+Buf/Inv area:                      223.972001
+Noncombinational area:            2003.777928
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                  3533.543938
+Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
+1

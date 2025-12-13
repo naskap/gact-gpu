@@ -1,0 +1,52 @@
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=8,NUM_CONSUMERS=8,NUM_CHANNELS=4". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'controller' instantiated from design 'gpu' with
+	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=2,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
+Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
+Information: Building the design 'registers' instantiated from design 'core_1' with
+	the parameters "THREADS_PER_BLOCK=4,THREAD_ID=1,DATA_BITS=8". (HDL-193)
+Warning: Cannot find the design 'registers' in the library 'WORK'. (LBR-1)
+Information: Building the design 'registers' instantiated from design 'core_1' with
+	the parameters "THREADS_PER_BLOCK=4,THREAD_ID=2,DATA_BITS=8". (HDL-193)
+Warning: Cannot find the design 'registers' in the library 'WORK'. (LBR-1)
+Information: Building the design 'registers' instantiated from design 'core_1' with
+	the parameters "THREADS_PER_BLOCK=4,THREAD_ID=3,DATA_BITS=8". (HDL-193)
+Warning: Cannot find the design 'registers' in the library 'WORK'. (LBR-1)
+Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
+Warning: Unable to resolve reference 'registers' in 'core_1'. (LINK-5)
+Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
+ 
+****************************************
+Report : area
+Design : gpu
+Version: R-2020.09-SP5-1
+Date   : Sat Dec 13 14:22:49 2025
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'gpu' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/rf5447/stdcells.db)
+
+Number of ports:                         2008
+Number of nets:                          9887
+Number of cells:                         7345
+Number of combinational cells:           6212
+Number of sequential cells:              1099
+Number of macros/black boxes:               0
+Number of buf/inv:                       1461
+Number of references:                       7
+
+Combinational area:               6885.676032
+Buf/Inv area:                      846.944002
+Noncombinational area:            4937.757822
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                 11823.433854
+Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
+1
