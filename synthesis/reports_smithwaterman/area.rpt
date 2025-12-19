@@ -1,0 +1,79 @@
+ 
+****************************************
+Report : area
+Design : SmithWatermanArray
+Version: R-2020.09-SP5-1
+Date   : Fri Dec 19 01:13:10 2025
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'SmithWatermanArray' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/rf5447/stdcells.db)
+
+Number of ports:                          940
+Number of nets:                        322578
+Number of cells:                       303462
+Number of combinational cells:         230646
+Number of sequential cells:             72767
+Number of macros/black boxes:               0
+Number of buf/inv:                      31748
+Number of references:                      90
+
+Combinational area:             268270.044315
+Buf/Inv area:                    19877.913934
+Noncombinational area:          329091.730068
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                597361.774383
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area              Local cell area
+                                  --------------------  -------------------------------- 
+Hierarchical cell                 Absolute     Percent  Combi-       Noncombi-    Black-
+                                  Total        Total    national     national     boxes   Design
+--------------------------------  -----------  -------  -----------  -----------  ------  ---------------------------------
+SmithWatermanArray                597361.7744    100.0   34850.7881   23400.0192  0.0000  SmithWatermanArray
+F_intern_fifo/fifo_dp_bram          7919.3519      1.3    3252.6481    4666.7038  0.0000  DP_BRAM_ADDR_WIDTH7_DATA_WIDTH8_0
+V_intern_fifo/fifo_dp_bram          6945.5259      1.2    2862.1601    4083.3659  0.0000  DP_BRAM_ADDR_WIDTH7_DATA_WIDTH8_2
+bram_gen[0].bt_bram                16201.2618      2.7    6922.1181    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_31
+bram_gen[10].bt_bram               16388.2597      2.7    7109.1160    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_21
+bram_gen[11].bt_bram               16372.0337      2.7    7092.8900    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_20
+bram_gen[12].bt_bram               16396.7717      2.7    7115.7660    9281.0057  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_19
+bram_gen[13].bt_bram               16392.2497      2.7    7112.5740    9279.6757  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_18
+bram_gen[14].bt_bram               16409.8057      2.7    7130.6620    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_17
+bram_gen[15].bt_bram               16415.3917      2.7    7134.6520    9280.7397  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_16
+bram_gen[16].bt_bram               16411.1357      2.7    7131.9920    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_15
+bram_gen[17].bt_bram               16389.8557      2.7    7110.7120    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_14
+bram_gen[18].bt_bram               16413.5297      2.7    7134.3860    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_13
+bram_gen[19].bt_bram               16395.9737      2.7    7116.8300    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_12
+bram_gen[1].bt_bram                16413.2637      2.7    7132.2580    9281.0057  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_30
+bram_gen[20].bt_bram               16376.8217      2.7    7097.6780    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_11
+bram_gen[21].bt_bram               16377.8857      2.7    7098.7420    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_10
+bram_gen[22].bt_bram               16374.6937      2.7    7095.5500    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_9
+bram_gen[23].bt_bram               16396.7717      2.7    7117.6280    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_8
+bram_gen[24].bt_bram               16402.3577      2.7    7123.2140    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_7
+bram_gen[25].bt_bram               16388.7917      2.7    7109.6480    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_6
+bram_gen[26].bt_bram               16381.8757      2.7    7102.7320    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_5
+bram_gen[27].bt_bram               16401.8257      2.7    7122.6820    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_4
+bram_gen[28].bt_bram               16371.5017      2.7    7092.3580    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_3
+bram_gen[29].bt_bram               16395.1757      2.7    7116.0320    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_2
+bram_gen[2].bt_bram                16393.3137      2.7    7114.1700    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_29
+bram_gen[30].bt_bram               16374.6937      2.7    7095.5500    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_1
+bram_gen[31].bt_bram               16382.1417      2.7    7102.9980    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_0
+bram_gen[3].bt_bram                16377.6197      2.7    7097.6780    9279.9417  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_28
+bram_gen[4].bt_bram                16378.1517      2.7    7099.0080    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_27
+bram_gen[5].bt_bram                16362.1917      2.7    7083.0480    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_26
+bram_gen[6].bt_bram                16356.3397      2.7    7077.1960    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_25
+bram_gen[7].bt_bram                16393.0477      2.7    7113.9040    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_24
+bram_gen[8].bt_bram                16379.2157      2.7    7097.6780    9281.5377  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_23
+bram_gen[9].bt_bram                16382.1417      2.7    7102.9980    9279.1437  0.0000  BRAM_ADDR_WIDTH9_DATA_WIDTH4_22
+--------------------------------  -----------  -------  -----------  -----------  ------  ---------------------------------
+Total                                                   268270.0443  329091.7301  0.0000
+
+1

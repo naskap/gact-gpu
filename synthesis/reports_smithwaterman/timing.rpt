@@ -1,0 +1,74 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : SmithWatermanArray
+Version: R-2020.09-SP5-1
+Date   : Fri Dec 19 01:13:22 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: swpe_gen[27].swpe/V_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: swpe_gen[27].swpe/V_reg[5]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  SmithWatermanArray 5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  swpe_gen[27].swpe/V_reg[1]/CK (DFF_X1)                  0.00 #     0.00 r
+  swpe_gen[27].swpe/V_reg[1]/Q (DFF_X1)                   0.10       0.10 r
+  U32023/ZN (NAND2_X1)                                    0.04       0.14 f
+  U28892/ZN (OAI21_X1)                                    0.04       0.18 r
+  U28891/ZN (INV_X1)                                      0.03       0.20 f
+  U32049/ZN (OAI21_X1)                                    0.04       0.25 r
+  U32052/ZN (XNOR2_X1)                                    0.07       0.31 r
+  U32070/ZN (AOI22_X1)                                    0.04       0.35 f
+  U32071/ZN (AND2_X1)                                     0.04       0.39 f
+  U32073/ZN (OAI21_X1)                                    0.04       0.43 r
+  U32074/ZN (NAND2_X1)                                    0.03       0.46 f
+  U32076/ZN (AND2_X1)                                     0.04       0.50 f
+  U27781/ZN (OAI21_X1)                                    0.04       0.54 r
+  U27399/ZN (AND2_X2)                                     0.06       0.59 r
+  U26032/Z (MUX2_X1)                                      0.08       0.68 f
+  U29237/ZN (OR2_X1)                                      0.05       0.73 f
+  U40125/ZN (OAI211_X1)                                   0.04       0.77 r
+  U40128/ZN (AND3_X1)                                     0.05       0.82 r
+  U40129/ZN (OAI21_X1)                                    0.03       0.85 f
+  U28923/ZN (OR2_X1)                                      0.05       0.89 f
+  U28924/ZN (AND3_X1)                                     0.04       0.93 f
+  U21633/ZN (OR2_X2)                                      0.05       0.99 f
+  U24751/ZN (AND2_X1)                                     0.04       1.03 f
+  U25928/ZN (NAND2_X1)                                    0.04       1.07 r
+  U48033/ZN (OR2_X1)                                      0.04       1.11 r
+  U48035/ZN (NAND4_X1)                                    0.03       1.14 f
+  swpe_gen[27].swpe/V_reg[5]/D (DFF_X1)                   0.01       1.15 f
+  data arrival time                                                  1.15
+
+  clock clk (rise edge)                                   1.00       1.00
+  clock network delay (ideal)                             0.00       1.00
+  clock uncertainty                                      -0.10       0.90
+  swpe_gen[27].swpe/V_reg[5]/CK (DFF_X1)                  0.00       0.90 r
+  library setup time                                     -0.04       0.86
+  data required time                                                 0.86
+  --------------------------------------------------------------------------
+  data required time                                                 0.86
+  data arrival time                                                 -1.15
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.29
+
+
+1

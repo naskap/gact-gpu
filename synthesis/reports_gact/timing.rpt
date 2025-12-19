@@ -1,4 +1,3 @@
-Warning: Design 'gpu' has '5' unresolved references. For more detailed information, use the "link" command. (UID-341)
  
 ****************************************
 Report : timing
@@ -7,13 +6,13 @@ Report : timing
         -max_paths 1
 Design : gpu
 Version: R-2020.09-SP5-1
-Date   : Sat Dec 13 14:20:49 2025
+Date   : Fri Dec 19 01:41:34 2025
 ****************************************
 
 Operating Conditions: typical   Library: NangateOpenCellLibrary
 Wire Load Model Mode: top
 
-  Startpoint: dcr_instance/device_conrol_register_reg[3]
+  Startpoint: dcr_instance/device_conrol_register_reg[1]
               (rising edge-triggered flip-flop clocked by clk)
   Endpoint: dispatch_instance/blocks_dispatched_reg[1]
             (rising edge-triggered flip-flop clocked by clk)
@@ -28,42 +27,37 @@ Wire Load Model Mode: top
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  dcr_instance/device_conrol_register_reg[3]/CK (DFF_X1)
+  dcr_instance/device_conrol_register_reg[1]/CK (DFF_X1)
                                                           0.00       0.00 r
-  dcr_instance/device_conrol_register_reg[3]/Q (DFF_X1)
+  dcr_instance/device_conrol_register_reg[1]/Q (DFF_X1)
                                                           0.09       0.09 r
-  dcr_instance/thread_count[3] (dcr)                      0.00       0.09 r
-  dispatch_instance/thread_count[3] (dispatch)            0.00       0.09 r
-  dispatch_instance/U171/ZN (INV_X1)                      0.02       0.11 f
-  dispatch_instance/U9/ZN (OR2_X2)                        0.05       0.16 f
-  dispatch_instance/U172/ZN (NAND3_X1)                    0.03       0.19 r
-  dispatch_instance/U176/ZN (AND3_X1)                     0.05       0.24 r
-  dispatch_instance/U186/ZN (NAND3_X1)                    0.03       0.27 f
-  dispatch_instance/U132/ZN (AND2_X2)                     0.05       0.32 f
-  dispatch_instance/U248/Z (MUX2_X1)                      0.09       0.41 r
-  dispatch_instance/U270/ZN (OAI21_X1)                    0.03       0.44 f
-  dispatch_instance/U271/ZN (AND2_X1)                     0.04       0.48 f
-  dispatch_instance/U278/ZN (OAI21_X1)                    0.04       0.52 r
-  dispatch_instance/U279/ZN (NAND2_X1)                    0.04       0.56 f
-  dispatch_instance/U89/ZN (OR2_X1)                       0.06       0.62 f
-  dispatch_instance/U113/Z (BUF_X1)                       0.04       0.66 f
-  dispatch_instance/U338/ZN (OR2_X1)                      0.06       0.72 f
-  dispatch_instance/U339/ZN (OAI211_X1)                   0.04       0.76 r
-  dispatch_instance/U340/ZN (OR2_X1)                      0.04       0.81 r
-  dispatch_instance/U341/ZN (NAND4_X1)                    0.05       0.86 f
-  dispatch_instance/U342/ZN (AOI21_X1)                    0.07       0.92 r
-  dispatch_instance/U133/ZN (OR2_X2)                      0.06       0.98 r
-  dispatch_instance/U422/ZN (OR2_X1)                      0.04       1.02 r
-  dispatch_instance/U425/ZN (AND2_X1)                     0.04       1.06 r
-  dispatch_instance/U428/ZN (NAND2_X1)                    0.03       1.09 f
-  dispatch_instance/U429/ZN (AND2_X1)                     0.04       1.12 f
-  dispatch_instance/U432/ZN (OAI21_X1)                    0.05       1.18 r
-  dispatch_instance/U434/ZN (NAND4_X1)                    0.04       1.22 f
-  dispatch_instance/U435/ZN (AND2_X1)                     0.04       1.26 f
-  dispatch_instance/U152/ZN (NAND2_X1)                    0.03       1.29 r
-  dispatch_instance/U140/ZN (AND2_X1)                     0.06       1.35 r
-  dispatch_instance/U561/ZN (OR2_X1)                      0.04       1.39 r
-  dispatch_instance/U564/ZN (NAND3_X1)                    0.03       1.42 f
+  U1446/ZN (AND2_X1)                                      0.04       0.13 r
+  U1448/ZN (OAI211_X1)                                    0.03       0.16 f
+  U680/ZN (AND2_X2)                                       0.04       0.20 f
+  U825/ZN (OAI211_X1)                                     0.04       0.24 r
+  U1137/ZN (AND2_X2)                                      0.06       0.31 r
+  U1270/Z (MUX2_X1)                                       0.10       0.41 f
+  U809/ZN (NAND3_X1)                                      0.04       0.45 r
+  U678/ZN (AND4_X2)                                       0.06       0.51 r
+  U1115/ZN (NAND3_X1)                                     0.04       0.55 f
+  U1493/ZN (NAND2_X1)                                     0.05       0.60 r
+  U819/Z (MUX2_X1)                                        0.09       0.68 f
+  U818/ZN (NAND2_X1)                                      0.03       0.72 r
+  U817/ZN (NAND2_X1)                                      0.02       0.74 f
+  U1509/ZN (OAI211_X1)                                    0.04       0.78 r
+  U1510/ZN (INV_X1)                                       0.03       0.81 f
+  U1534/ZN (NAND3_X1)                                     0.04       0.85 r
+  U1183/ZN (OAI211_X1)                                    0.06       0.91 f
+  U1535/ZN (NAND2_X2)                                     0.07       0.98 r
+  U1568/Z (MUX2_X1)                                       0.09       1.07 f
+  U1275/ZN (OR2_X1)                                       0.05       1.13 f
+  U1569/ZN (AND2_X1)                                      0.04       1.16 f
+  U1585/ZN (NAND2_X1)                                     0.03       1.19 r
+  U1603/ZN (NAND3_X1)                                     0.04       1.23 f
+  U1262/ZN (AND3_X2)                                      0.05       1.28 f
+  U1637/ZN (NOR2_X1)                                      0.05       1.33 r
+  U1800/Z (BUF_X1)                                        0.05       1.38 r
+  U2177/ZN (OAI211_X1)                                    0.04       1.42 f
   dispatch_instance/blocks_dispatched_reg[1]/D (DFF_X1)
                                                           0.01       1.43 f
   data arrival time                                                  1.43

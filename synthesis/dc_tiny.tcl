@@ -1,11 +1,10 @@
 # ===============================
 # dc_tiny.tcl
-# Run from project root
+# Updated to use analyze/elaborate
 # ===============================
 
 # ---------- User config ----------
 set DESIGN_NAME gpu
-
 set REPORT_DIR ./reports_tiny
 set WORK_DIR   ./work_tiny
 
@@ -17,6 +16,7 @@ set LINK_LIB   "* $TARGET_LIB"
 file mkdir $REPORT_DIR
 file mkdir $WORK_DIR
 
+# Define the WORK library explicitly to store analyzed intermediate files
 define_design_lib WORK -path $WORK_DIR
 
 set_app_var target_library $TARGET_LIB
@@ -26,16 +26,25 @@ set_app_var search_path    [list . ./tiny]
 set hdlin_sv_enable_vpp true
 set verilogout_no_tri true
 
-# ---------- Read RTL ----------
-puts "INFO: Reading RTL files:"
-puts "  tiny/gpu.v"
-puts "  tiny/alu.v"
+# ---------- Read RTL (Analyze Phase) ----------
+# 'analyze' checks syntax and stores the design in the WORK library.
+# We include all files in the directory to ensure sub-components like 'alu' are seen.
+puts "INFO: Analyzing RTL files in ./tiny..."
+set rtl_files [glob -nocomplain ./tiny/*.{v,sv}]
 
-read_file -format sverilog {tiny/gpu.v tiny/alu.v}
+foreach f [lsort $rtl_files] {
+    puts "  Analyzing: $f"
+    analyze -format sverilog $f
+}
 
 # ---------- Elaborate ----------
+# 'elaborate' assembles the hierarchy starting from the top module.
+# It automatically looks in the 'WORK' library for modules analyzed above.
+puts "INFO: Elaborating design $DESIGN_NAME..."
 elaborate $DESIGN_NAME
 current_design $DESIGN_NAME
+
+# 'link' resolves all module references and ensures no black boxes exist.
 link
 
 # ---------- Constraints ----------
@@ -52,11 +61,14 @@ set_max_fanout 10 [current_design]
 compile_ultra
 
 # ---------- Reports ----------
-report_area   > $REPORT_DIR/area.rpt
-report_power  > $REPORT_DIR/power.rpt
-report_timing > $REPORT_DIR/timing.rpt
+# Added -hierarchy to see the area contribution of the ALU specifically
+report_area -hierarchy > $REPORT_DIR/area.rpt
+report_power           > $REPORT_DIR/power.rpt
+report_timing          > $REPORT_DIR/timing.rpt
+report_reference       > $REPORT_DIR/references.rpt
 
 # ---------- Save ----------
 write -format ddc -hierarchy -output $REPORT_DIR/${DESIGN_NAME}.ddc
 
+puts "INFO: Synthesis of $DESIGN_NAME complete."
 quit

@@ -1,10 +1,11 @@
  
 ****************************************
 Report : power
+        -hier
         -analysis_effort low
 Design : gpu
 Version: R-2020.09-SP5-1
-Date   : Sat Dec 13 14:20:49 2025
+Date   : Fri Dec 19 01:41:34 2025
 ****************************************
 
 
@@ -30,24 +31,41 @@ Power-specific unit information :
     Leakage Power Units = 1nW
 
 
-  Cell Internal Power  =   2.3021 mW   (64%)
-  Net Switching Power  =   1.3053 mW   (36%)
-                         ---------
-Total Dynamic Power    =   3.6074 mW  (100%)
-
-Cell Leakage Power     =  70.7511 uW
-
-
-                 Internal         Switching           Leakage            Total
-Power Group      Power            Power               Power              Power   (   %    )  Attrs
---------------------------------------------------------------------------------------------------
-io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
-memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
-black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network    163.2005        1.2080e+03        2.1429e+04        1.3926e+03  (  37.86%)
-register       2.0775e+03           28.4414        3.4773e+04        2.1408e+03  (  58.20%)
-sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
-combinational     61.3355           68.8537        1.4550e+04          144.7386  (   3.94%)
---------------------------------------------------------------------------------------------------
-Total          2.3021e+03 uW     1.3053e+03 uW     7.0751e+04 nW     3.6781e+03 uW
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+gpu                                    2.19e+03 4.34e+03 1.46e+05 6.68e+03 100.0
+  cores[3].core_instance (core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0)
+                                        438.272  291.048 8.75e+03  738.073  11.1
+    gact_instance (GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_0)
+                                          2.635   53.720 1.76e+03   58.120   0.9
+    scheduler_instance (scheduler_THREADS_PER_BLOCK1_0)
+                                         11.732   64.618 1.96e+03   78.315   1.2
+    fetcher_instance (fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_0)
+                                         12.576  146.271 3.44e+03  162.287   2.4
+  cores[2].core_instance (core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1)
+                                        438.131  287.948 8.77e+03  734.849  11.0
+    gact_instance (GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_1)
+                                          2.795   53.964 1.77e+03   58.526   0.9
+    scheduler_instance (scheduler_THREADS_PER_BLOCK1_1)
+                                         11.606   63.992 1.98e+03   77.575   1.2
+    fetcher_instance (fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_1)
+                                         12.574  143.511 3.44e+03  159.526   2.4
+  cores[1].core_instance (core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2)
+                                        438.299  290.741 8.81e+03  737.851  11.1
+    gact_instance (GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_2)
+                                          2.898   54.111 1.76e+03   58.773   0.9
+    scheduler_instance (scheduler_THREADS_PER_BLOCK1_2)
+                                         10.983   63.987 1.95e+03   76.924   1.2
+    fetcher_instance (fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_2)
+                                         12.295  145.930 3.47e+03  161.691   2.4
+  cores[0].core_instance (core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3)
+                                        438.661  291.948 8.81e+03  739.420  11.1
+    gact_instance (GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_3)
+                                          2.679   53.818 1.76e+03   58.262   0.9
+    scheduler_instance (scheduler_THREADS_PER_BLOCK1_3)
+                                         11.146   64.259 1.95e+03   77.358   1.2
+    fetcher_instance (fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_3)
+                                         12.492  147.181 3.46e+03  163.137   2.4
 1

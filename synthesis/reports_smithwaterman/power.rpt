@@ -1,0 +1,107 @@
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : SmithWatermanArray
+Version: R-2020.09-SP5-1
+Date   : Fri Dec 19 01:13:21 2025
+****************************************
+
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/rf5447/stdcells.db)
+
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+SmithWatermanArray     5K_hvratio_1_1    NangateOpenCellLibrary
+
+
+Global Operating Voltage = 1.1  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+SmithWatermanArray                      975.607 5.04e+05 1.10e+07 5.16e+05 100.0
+  F_intern_fifo/fifo_dp_bram (DP_BRAM_ADDR_WIDTH7_DATA_WIDTH8_0)
+                                          0.366 7.18e+03 1.34e+05 7.31e+03   1.4
+  V_intern_fifo/fifo_dp_bram (DP_BRAM_ADDR_WIDTH7_DATA_WIDTH8_2)
+                                          1.200 6.28e+03 1.18e+05 6.40e+03   1.2
+  bram_gen[31].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_0)
+                                          1.828 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[30].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_1)
+                                          3.455 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[29].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_2)
+                                          2.990 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[28].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_3)
+                                          2.941 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[27].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_4)
+                                          2.792 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[26].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_5)
+                                          1.950 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[25].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_6)
+                                          2.756 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[24].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_7)
+                                          2.837 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[23].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_8)
+                                          2.148 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[22].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_9)
+                                          1.809 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[21].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_10)
+                                          3.639 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[20].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_11)
+                                          2.677 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[19].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_12)
+                                          2.799 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[18].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_13)
+                                          3.490 1.43e+04 2.98e+05 1.46e+04   2.8
+  bram_gen[17].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_14)
+                                          2.934 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[16].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_15)
+                                          2.810 1.43e+04 2.98e+05 1.46e+04   2.8
+  bram_gen[15].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_16)
+                                          2.789 1.43e+04 2.98e+05 1.46e+04   2.8
+  bram_gen[14].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_17)
+                                          3.648 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[13].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_18)
+                                          3.667 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[12].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_19)
+                                          2.890 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[11].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_20)
+                                          3.425 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[10].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_21)
+                                          2.630 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[9].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_22)
+                                          2.014 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[8].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_23)
+                                          2.748 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[7].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_24)
+                                          2.779 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[6].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_25)
+                                          2.910 1.43e+04 2.95e+05 1.46e+04   2.8
+  bram_gen[5].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_26)
+                                          2.925 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[4].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_27)
+                                          2.011 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[3].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_28)
+                                          2.729 1.43e+04 2.96e+05 1.46e+04   2.8
+  bram_gen[2].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_29)
+                                          2.877 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[1].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_30)
+                                          2.796 1.43e+04 2.97e+05 1.46e+04   2.8
+  bram_gen[0].bt_bram (BRAM_ADDR_WIDTH9_DATA_WIDTH4_31)
+                                          2.394 1.43e+04 2.81e+05 1.46e+04   2.8
+1

@@ -1,63 +1,49 @@
-Information: Building the design 'controller' instantiated from design 'gpu' with
-	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=4". (HDL-193)
-Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
-Information: Building the design 'controller' instantiated from design 'gpu' with
-	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=4,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
-Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_3'. (LINK-3)
-Warning: Unable to resolve reference 'decoder' in 'core_3'. (LINK-5)
-Information: Building the design 'GACTTop' instantiated from design 'core_3' with
-	the parameters "PE_WIDTH=10,BLOCK_WIDTH=3,MAX_TILE_SIZE=64,NUM_PE=4,REQUEST_ID_WIDTH=16,NUM_DIR_BLOCK=4". (HDL-193)
-Warning: Cannot find the design 'GACTTop' in the library 'WORK'. (LBR-1)
-Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_3'. (LINK-3)
-Warning: Unable to resolve reference 'alu' in 'core_3'. (LINK-5)
-Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_3'. (LINK-3)
-Warning: Unable to resolve reference 'lsu' in 'core_3'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_3'. (LINK-3)
-Warning: Unable to resolve reference 'registers' in 'core_3'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_3'. (LINK-3)
-Warning: Unable to resolve reference 'pc' in 'core_3'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_2'. (LINK-3)
-Warning: Unable to resolve reference 'decoder' in 'core_2'. (LINK-5)
-Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_2'. (LINK-3)
-Warning: Unable to resolve reference 'alu' in 'core_2'. (LINK-5)
-Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_2'. (LINK-3)
-Warning: Unable to resolve reference 'lsu' in 'core_2'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_2'. (LINK-3)
-Warning: Unable to resolve reference 'registers' in 'core_2'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_2'. (LINK-3)
-Warning: Unable to resolve reference 'pc' in 'core_2'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_1'. (LINK-3)
-Warning: Unable to resolve reference 'decoder' in 'core_1'. (LINK-5)
-Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_1'. (LINK-3)
-Warning: Unable to resolve reference 'alu' in 'core_1'. (LINK-5)
-Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_1'. (LINK-3)
-Warning: Unable to resolve reference 'lsu' in 'core_1'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_1'. (LINK-3)
-Warning: Unable to resolve reference 'registers' in 'core_1'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_1'. (LINK-3)
-Warning: Unable to resolve reference 'pc' in 'core_1'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_0'. (LINK-3)
-Warning: Unable to resolve reference 'decoder' in 'core_0'. (LINK-5)
-Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_0'. (LINK-3)
-Warning: Unable to resolve reference 'alu' in 'core_0'. (LINK-5)
-Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_0'. (LINK-3)
-Warning: Unable to resolve reference 'lsu' in 'core_0'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_0'. (LINK-3)
-Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
-Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_0'. (LINK-3)
-Warning: Unable to resolve reference 'pc' in 'core_0'. (LINK-5)
-Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
-Warning: Unable to resolve reference 'GACTTop' in 'core_3'. (LINK-5)
-Warning: Unable to resolve reference 'GACTTop' in 'core_2'. (LINK-5)
-Warning: Unable to resolve reference 'GACTTop' in 'core_1'. (LINK-5)
-Warning: Unable to resolve reference 'GACTTop' in 'core_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-3)
+Error: Unable to match ports of cell cores[0].core_instance/threads[0].register_instance ('registers') to 'registers_THREADS_PER_BLOCK1_THREAD_ID0_DATA_BITS16'. (LINK-25)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3'. (LINK-3)
+Error: Unable to match ports of cell cores[0].core_instance/threads[0].pc_instance ('pc') to 'pc_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8'. (LINK-25)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-3)
+Error: Unable to match ports of cell cores[1].core_instance/threads[0].register_instance ('registers') to 'registers_THREADS_PER_BLOCK1_THREAD_ID0_DATA_BITS16'. (LINK-25)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2'. (LINK-3)
+Error: Unable to match ports of cell cores[1].core_instance/threads[0].pc_instance ('pc') to 'pc_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8'. (LINK-25)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-3)
+Error: Unable to match ports of cell cores[2].core_instance/threads[0].register_instance ('registers') to 'registers_THREADS_PER_BLOCK1_THREAD_ID0_DATA_BITS16'. (LINK-25)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1'. (LINK-3)
+Error: Unable to match ports of cell cores[2].core_instance/threads[0].pc_instance ('pc') to 'pc_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8'. (LINK-25)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-3)
+Warning: Unable to resolve reference 'decoder' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-5)
+Error: Width mismatch on port 'rs' of reference to 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-3)
+Warning: Unable to resolve reference 'alu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-5)
+Error: Width mismatch on port 'mem_read_data' of reference to 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-3)
+Warning: Unable to resolve reference 'lsu' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-5)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'registers' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-3)
+Error: Unable to match ports of cell cores[3].core_instance/threads[0].register_instance ('registers') to 'registers_THREADS_PER_BLOCK1_THREAD_ID0_DATA_BITS16'. (LINK-25)
+Error: Width mismatch on port 'decoded_immediate' of reference to 'pc' in 'core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0'. (LINK-3)
+Error: Unable to match ports of cell cores[3].core_instance/threads[0].pc_instance ('pc') to 'pc_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8'. (LINK-25)
  
 ****************************************
 Report : area
 Design : gpu
 Version: R-2020.09-SP5-1
-Date   : Sat Dec 13 14:20:49 2025
+Date   : Fri Dec 19 01:41:34 2025
 ****************************************
 
 Information: Updating design information... (UID-85)
@@ -65,23 +51,64 @@ Library(s) Used:
 
     NangateOpenCellLibrary (File: /home/rf5447/stdcells.db)
 
-Number of ports:                         1050
-Number of nets:                          3616
-Number of cells:                         1952
-Number of combinational cells:           1438
-Number of sequential cells:               468
+Number of ports:                         2675
+Number of nets:                          6020
+Number of cells:                         4446
+Number of combinational cells:           3624
+Number of sequential cells:               755
 Number of macros/black boxes:               0
-Number of buf/inv:                        397
-Number of references:                       9
+Number of buf/inv:                        611
+Number of references:                      49
 
-Combinational area:               1529.766010
-Buf/Inv area:                      223.972001
-Noncombinational area:            2003.777928
+Combinational area:               3820.026010
+Buf/Inv area:                      347.130002
+Noncombinational area:            3327.659880
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:                  3533.543938
+Total cell area:                  7147.685890
 Total area:                 undefined
 
 Information: This design contains black box (unknown) components. (RPT-8)
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  -----------------------------------------------------------------------------------------------------------------
+gpu                               7147.6859    100.0  2955.5260  2385.4879  0.0000  gpu
+cores[0].core_instance             451.9340      6.3    70.7560     9.0440  0.0000  core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3
+cores[0].core_instance/fetcher_instance
+                                   185.1360      2.6    63.0420   122.0940  0.0000  fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_3
+cores[0].core_instance/gact_instance
+                                    91.5040      1.3    41.7620    49.7420  0.0000  GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_3
+cores[0].core_instance/scheduler_instance
+                                    95.4940      1.3    41.2300    54.2640  0.0000  scheduler_THREADS_PER_BLOCK1_3
+cores[1].core_instance             451.9340      6.3    70.7560     9.0440  0.0000  core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2
+cores[1].core_instance/fetcher_instance
+                                   185.1360      2.6    63.0420   122.0940  0.0000  fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_2
+cores[1].core_instance/gact_instance
+                                    91.5040      1.3    41.7620    49.7420  0.0000  GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_2
+cores[1].core_instance/scheduler_instance
+                                    95.4940      1.3    41.2300    54.2640  0.0000  scheduler_THREADS_PER_BLOCK1_2
+cores[2].core_instance             452.2000      6.3    69.1600     9.0440  0.0000  core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1
+cores[2].core_instance/fetcher_instance
+                                   184.6040      2.6    62.5100   122.0940  0.0000  fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_1
+cores[2].core_instance/gact_instance
+                                    91.5040      1.3    41.7620    49.7420  0.0000  GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_1
+cores[2].core_instance/scheduler_instance
+                                    97.8880      1.4    42.0280    55.8600  0.0000  scheduler_THREADS_PER_BLOCK1_1
+cores[3].core_instance             450.6040      6.3    69.1600     9.0440  0.0000  core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0
+cores[3].core_instance/fetcher_instance
+                                   184.6040      2.6    62.5100   122.0940  0.0000  fetcher_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_0
+cores[3].core_instance/gact_instance
+                                    91.5040      1.3    41.7620    49.7420  0.0000  GACTTop_PE_WIDTH10_BLOCK_WIDTH3_MAX_TILE_SIZE64_NUM_PE4_NUM_DIR_BLOCK4_REQUEST_ID_WIDTH16_0
+cores[3].core_instance/scheduler_instance
+                                    96.2920      1.3    42.0280    54.2640  0.0000  scheduler_THREADS_PER_BLOCK1_0
+--------------------------------  ---------  -------  ---------  ---------  ------  -----------------------------------------------------------------------------------------------------------------
+Total                                                 3820.0260  3327.6599  0.0000
+
 1

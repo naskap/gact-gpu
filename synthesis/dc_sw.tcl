@@ -4,7 +4,7 @@
 # ===============================
 
 # ---------- User config ----------
-set DESIGN_NAME gpu
+set DESIGN_NAME SmithWatermanArray
 set REPORT_DIR ./reports_gact
 set WORK_DIR   ./work_gact
 

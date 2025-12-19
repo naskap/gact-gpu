@@ -4,7 +4,7 @@ Report : power
         -analysis_effort low
 Design : gpu
 Version: R-2020.09-SP5-1
-Date   : Sat Dec 13 14:22:50 2025
+Date   : Fri Dec 19 01:05:57 2025
 ****************************************
 
 
@@ -30,12 +30,12 @@ Power-specific unit information :
     Leakage Power Units = 1nW
 
 
-  Cell Internal Power  =   7.1586 mW    (1%)
-  Net Switching Power  =   1.0779  W   (99%)
+  Cell Internal Power  =  14.7312 mW   (98%)
+  Net Switching Power  = 363.3594 uW    (2%)
                          ---------
-Total Dynamic Power    =   1.0850  W  (100%)
+Total Dynamic Power    =  15.0945 mW  (100%)
 
-Cell Leakage Power     = 243.7215 uW
+Cell Leakage Power     = 548.9673 uW
 
 
                  Internal         Switching           Leakage            Total
@@ -44,10 +44,10 @@ Power Group      Power            Power               Power              Power  
 io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network    869.2145        1.0778e+06        1.1346e+05        1.0787e+06  (  99.40%)
-register       6.2492e+03           44.0254        8.4216e+04        6.3775e+03  (   0.59%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register       1.4589e+04           13.9071        1.6124e+05        1.4764e+04  (  94.38%)
 sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
-combinational     40.1125           45.0305        4.6041e+04          131.1842  (   0.01%)
+combinational    142.5335          349.4532        3.8772e+05          879.7079  (   5.62%)
 --------------------------------------------------------------------------------------------------
-Total          7.1586e+03 uW     1.0779e+06 uW     2.4372e+05 nW     1.0853e+06 uW
+Total          1.4731e+04 uW       363.3603 uW     5.4897e+05 nW     1.5644e+04 uW
 1

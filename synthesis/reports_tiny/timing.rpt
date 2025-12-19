@@ -1,4 +1,3 @@
-Warning: Design 'gpu' has '3' unresolved references. For more detailed information, use the "link" command. (UID-341)
  
 ****************************************
 Report : timing
@@ -7,7 +6,7 @@ Report : timing
         -max_paths 1
 Design : gpu
 Version: R-2020.09-SP5-1
-Date   : Sat Dec 13 14:22:50 2025
+Date   : Fri Dec 19 01:05:57 2025
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -15,9 +14,9 @@ Date   : Sat Dec 13 14:22:50 2025
 Operating Conditions: typical   Library: NangateOpenCellLibrary
 Wire Load Model Mode: top
 
-  Startpoint: cores[0].core_instance/threads[0].register_instance/rt_reg[1]
+  Startpoint: cores[1].core_instance/threads[1].register_instance/rt_reg[1]
               (rising edge-triggered flip-flop clocked by clk)
-  Endpoint: cores[0].core_instance/threads[0].alu_instance/alu_out_reg_reg[0]
+  Endpoint: cores[1].core_instance/threads[1].alu_instance/alu_out_reg_reg[1]
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: max
@@ -30,80 +29,50 @@ Wire Load Model Mode: top
   --------------------------------------------------------------------------
   clock clk (rise edge)                                   0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  cores[0].core_instance/threads[0].register_instance/rt_reg[1]/CK (DFF_X1)
+  cores[1].core_instance/threads[1].register_instance/rt_reg[1]/CK (DFF_X1)
                                                           0.00 #     0.00 r
-  cores[0].core_instance/threads[0].register_instance/rt_reg[1]/Q (DFF_X1)
-                                                          0.09       0.09 r
-  cores[0].core_instance/threads[0].register_instance/rt[1] (registers_1)
-                                                          0.00       0.09 r
-  cores[0].core_instance/threads[0].alu_instance/rt[1] (alu_7)
-                                                          0.00       0.09 r
-  cores[0].core_instance/threads[0].alu_instance/U152/Z (BUF_X1)
-                                                          0.04       0.14 r
-  cores[0].core_instance/threads[0].alu_instance/U259/ZN (NAND2_X1)
-                                                          0.03       0.16 f
-  cores[0].core_instance/threads[0].alu_instance/U260/ZN (AND2_X1)
-                                                          0.04       0.20 f
-  cores[0].core_instance/threads[0].alu_instance/U264/ZN (XNOR2_X1)
-                                                          0.05       0.25 f
-  cores[0].core_instance/threads[0].alu_instance/U223/ZN (NAND4_X1)
-                                                          0.04       0.29 r
-  cores[0].core_instance/threads[0].alu_instance/U70/ZN (AND2_X1)
-                                                          0.05       0.34 r
-  cores[0].core_instance/threads[0].alu_instance/U178/ZN (NAND2_X1)
-                                                          0.03       0.37 f
-  cores[0].core_instance/threads[0].alu_instance/U166/ZN (OR2_X1)
-                                                          0.05       0.42 f
-  cores[0].core_instance/threads[0].alu_instance/U419/ZN (OAI21_X1)
-                                                          0.04       0.46 r
-  cores[0].core_instance/threads[0].alu_instance/U420/ZN (NAND2_X1)
-                                                          0.03       0.49 f
-  cores[0].core_instance/threads[0].alu_instance/U104/ZN (AND4_X1)
-                                                          0.04       0.54 f
-  cores[0].core_instance/threads[0].alu_instance/U20/ZN (OR2_X2)
-                                                          0.05       0.59 f
-  cores[0].core_instance/threads[0].alu_instance/U185/ZN (AND2_X1)
-                                                          0.04       0.63 f
-  cores[0].core_instance/threads[0].alu_instance/U230/ZN (AOI22_X1)
-                                                          0.05       0.68 r
-  cores[0].core_instance/threads[0].alu_instance/U499/ZN (OAI22_X1)
-                                                          0.04       0.72 f
-  cores[0].core_instance/threads[0].alu_instance/U215/Z (MUX2_X1)
-                                                          0.07       0.79 f
-  cores[0].core_instance/threads[0].alu_instance/U684/ZN (OR2_X1)
-                                                          0.06       0.85 f
-  cores[0].core_instance/threads[0].alu_instance/U118/ZN (NAND3_X1)
-                                                          0.03       0.88 r
-  cores[0].core_instance/threads[0].alu_instance/U243/ZN (AND2_X1)
-                                                          0.04       0.92 r
-  cores[0].core_instance/threads[0].alu_instance/U687/ZN (OAI21_X1)
-                                                          0.03       0.95 f
-  cores[0].core_instance/threads[0].alu_instance/U206/ZN (AND2_X1)
-                                                          0.04       0.98 f
-  cores[0].core_instance/threads[0].alu_instance/U247/ZN (OAI21_X1)
-                                                          0.04       1.02 r
-  cores[0].core_instance/threads[0].alu_instance/U693/ZN (NAND2_X1)
-                                                          0.03       1.05 f
-  cores[0].core_instance/threads[0].alu_instance/U694/ZN (NOR3_X1)
-                                                          0.05       1.09 r
-  cores[0].core_instance/threads[0].alu_instance/U718/ZN (NOR4_X1)
-                                                          0.03       1.12 f
-  cores[0].core_instance/threads[0].alu_instance/alu_out_reg_reg[0]/D (DFF_X1)
-                                                          0.01       1.13 f
-  data arrival time                                                  1.13
+  cores[1].core_instance/threads[1].register_instance/rt_reg[1]/Q (DFF_X1)
+                                                          0.11       0.11 r
+  U6436/ZN (AND2_X2)                                      0.06       0.17 r
+  U12762/ZN (XNOR2_X1)                                    0.06       0.23 r
+  U12763/ZN (NAND2_X1)                                    0.03       0.25 f
+  U9394/ZN (AND2_X1)                                      0.04       0.29 f
+  U12775/ZN (NAND4_X1)                                    0.04       0.33 r
+  U12779/ZN (NAND2_X1)                                    0.03       0.36 f
+  U12780/ZN (AOI21_X1)                                    0.05       0.41 r
+  U12781/ZN (INV_X1)                                      0.03       0.44 f
+  U6317/ZN (OAI21_X2)                                     0.07       0.51 r
+  U12829/ZN (NAND4_X1)                                    0.05       0.56 f
+  U6442/ZN (AND2_X2)                                      0.05       0.61 f
+  U6441/ZN (NOR2_X2)                                      0.07       0.68 r
+  U12889/ZN (NAND3_X1)                                    0.05       0.74 f
+  U8710/ZN (NAND4_X1)                                     0.06       0.80 r
+  U12935/ZN (NAND2_X1)                                    0.03       0.83 f
+  U8499/ZN (OAI21_X1)                                     0.05       0.88 r
+  U12937/ZN (NAND2_X1)                                    0.03       0.91 f
+  U12938/ZN (AND2_X1)                                     0.04       0.95 f
+  U12939/ZN (OR3_X1)                                      0.09       1.04 f
+  U12940/ZN (NAND4_X1)                                    0.04       1.08 r
+  U6533/ZN (AND3_X2)                                      0.06       1.14 r
+  U13005/ZN (AND2_X1)                                     0.05       1.19 r
+  U9550/ZN (NAND2_X1)                                     0.03       1.22 f
+  U9198/ZN (OAI211_X1)                                    0.03       1.25 r
+  cores[1].core_instance/threads[1].alu_instance/alu_out_reg_reg[1]/D (DFF_X1)
+                                                          0.01       1.26 r
+  data arrival time                                                  1.26
 
   clock clk (rise edge)                                   1.00       1.00
   clock network delay (ideal)                             0.00       1.00
   clock uncertainty                                      -0.10       0.90
-  cores[0].core_instance/threads[0].alu_instance/alu_out_reg_reg[0]/CK (DFF_X1)
+  cores[1].core_instance/threads[1].alu_instance/alu_out_reg_reg[1]/CK (DFF_X1)
                                                           0.00       0.90 r
-  library setup time                                     -0.04       0.86
-  data required time                                                 0.86
+  library setup time                                     -0.03       0.87
+  data required time                                                 0.87
   --------------------------------------------------------------------------
-  data required time                                                 0.86
-  data arrival time                                                 -1.13
+  data required time                                                 0.87
+  data arrival time                                                 -1.26
   --------------------------------------------------------------------------
-  slack (VIOLATED)                                                  -0.27
+  slack (VIOLATED)                                                  -0.39
 
 
 1

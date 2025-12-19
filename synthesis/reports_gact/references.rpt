@@ -1,0 +1,122 @@
+ 
+****************************************
+Report : reference
+Design : gpu
+Version: R-2020.09-SP5-1
+Date   : Fri Dec 19 01:41:34 2025
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2_X1            NangateOpenCellLibrary
+                                  1.064000     291    309.624003  
+AND2_X2            NangateOpenCellLibrary
+                                  1.330000      10     13.300000  
+AND3_X1            NangateOpenCellLibrary
+                                  1.330000      29     38.570001  
+AND3_X2            NangateOpenCellLibrary
+                                  1.596000       2      3.192000  
+AND4_X1            NangateOpenCellLibrary
+                                  1.596000      14     22.343999  
+AND4_X2            NangateOpenCellLibrary
+                                  1.862000       1      1.862000  
+AOI21_X1           NangateOpenCellLibrary
+                                  1.064000      55     58.520001  
+AOI22_X1           NangateOpenCellLibrary
+                                  1.330000      74     98.420003  
+AOI211_X1          NangateOpenCellLibrary
+                                  1.330000       1      1.330000  
+AOI221_X1          NangateOpenCellLibrary
+                                  1.596000      11     17.556000  
+AOI221_X2          NangateOpenCellLibrary
+                                  2.926000       1      2.926000  
+BUF_X1             NangateOpenCellLibrary
+                                  0.798000      21     16.758000  
+BUF_X2             NangateOpenCellLibrary
+                                  1.064000       9      9.576000  
+CLKBUF_X1          NangateOpenCellLibrary
+                                  0.798000      29     23.141999  
+DFFS_X1            NangateOpenCellLibrary
+                                  5.320000       1      5.320000  n
+DFF_X1             NangateOpenCellLibrary
+                                  4.522000     525   2374.049914  n
+HA_X1              NangateOpenCellLibrary
+                                  2.660000      24     63.840002  r
+INV_X1             NangateOpenCellLibrary
+                                  0.532000     329    175.028002  
+INV_X4             NangateOpenCellLibrary
+                                  1.330000       1      1.330000  
+MUX2_X1            NangateOpenCellLibrary
+                                  1.862000     176    327.711998  
+MUX2_X2            NangateOpenCellLibrary
+                                  2.394000       2      4.788000  
+NAND2_X1           NangateOpenCellLibrary
+                                  0.798000     574    458.051987  
+NAND2_X2           NangateOpenCellLibrary
+                                  1.330000       3      3.990000  
+NAND3_X1           NangateOpenCellLibrary
+                                  1.064000      51     54.264001  
+NAND4_X1           NangateOpenCellLibrary
+                                  1.330000      20     26.600001  
+NOR2_X1            NangateOpenCellLibrary
+                                  0.798000     202    161.195996  
+NOR2_X2            NangateOpenCellLibrary
+                                  1.330000       4      5.320000  
+NOR3_X1            NangateOpenCellLibrary
+                                  1.064000       7      7.448000  
+NOR3_X2            NangateOpenCellLibrary
+                                  1.862000       1      1.862000  
+NOR4_X1            NangateOpenCellLibrary
+                                  1.330000       4      5.320000  
+OAI21_X1           NangateOpenCellLibrary
+                                  1.064000     271    288.344003  
+OAI22_X1           NangateOpenCellLibrary
+                                  1.330000      81    107.730003  
+OAI211_X1          NangateOpenCellLibrary
+                                  1.330000      35     46.550002  
+OAI211_X2          NangateOpenCellLibrary
+                                  2.394000       1      2.394000  
+OAI221_X1          NangateOpenCellLibrary
+                                  1.596000       4      6.384000  
+OAI222_X1          NangateOpenCellLibrary
+                                  2.128000       8     17.024000  
+OR2_X1             NangateOpenCellLibrary
+                                  1.064000     378    402.192004  
+OR2_X2             NangateOpenCellLibrary
+                                  1.330000      10     13.300000  
+OR3_X1             NangateOpenCellLibrary
+                                  1.330000      56     74.480002  
+OR3_X2             NangateOpenCellLibrary
+                                  1.596000       3      4.788000  
+OR4_X1             NangateOpenCellLibrary
+                                  1.596000       6      9.576000  
+OR4_X2             NangateOpenCellLibrary
+                                  1.862000       1      1.862000  
+SDFF_X1            NangateOpenCellLibrary
+                                  6.118000       1      6.118000  n
+XNOR2_X1           NangateOpenCellLibrary
+                                  1.596000      25     39.899999  
+XOR2_X1            NangateOpenCellLibrary
+                                  1.596000      17     27.131999  
+core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_0
+                                450.603992       1    450.603992  b, h, n
+core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_1
+                                452.199993       1    452.199993  b, h, n
+core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_2
+                                451.933993       1    451.933993  b, h, n
+core_DATA_MEM_ADDR_BITS8_DATA_MEM_DATA_BITS16_PROGRAM_MEM_ADDR_BITS8_PROGRAM_MEM_DATA_BITS16_THREADS_PER_BLOCK1_3
+                                451.933993       1    451.933993  b, h, n
+-----------------------------------------------------------------------------
+Total 49 references                                  7147.685890
+1

@@ -1,27 +1,9 @@
-Information: Building the design 'controller' instantiated from design 'gpu' with
-	the parameters "ADDR_BITS=8,DATA_BITS=8,NUM_CONSUMERS=8,NUM_CHANNELS=4". (HDL-193)
-Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
-Information: Building the design 'controller' instantiated from design 'gpu' with
-	the parameters "ADDR_BITS=8,DATA_BITS=16,NUM_CONSUMERS=2,NUM_CHANNELS=1,WRITE_ENABLE=0". (HDL-193)
-Warning: Cannot find the design 'controller' in the library 'WORK'. (LBR-1)
-Information: Building the design 'registers' instantiated from design 'core_1' with
-	the parameters "THREADS_PER_BLOCK=4,THREAD_ID=1,DATA_BITS=8". (HDL-193)
-Warning: Cannot find the design 'registers' in the library 'WORK'. (LBR-1)
-Information: Building the design 'registers' instantiated from design 'core_1' with
-	the parameters "THREADS_PER_BLOCK=4,THREAD_ID=2,DATA_BITS=8". (HDL-193)
-Warning: Cannot find the design 'registers' in the library 'WORK'. (LBR-1)
-Information: Building the design 'registers' instantiated from design 'core_1' with
-	the parameters "THREADS_PER_BLOCK=4,THREAD_ID=3,DATA_BITS=8". (HDL-193)
-Warning: Cannot find the design 'registers' in the library 'WORK'. (LBR-1)
-Warning: Unable to resolve reference 'controller' in 'gpu'. (LINK-5)
-Warning: Unable to resolve reference 'registers' in 'core_1'. (LINK-5)
-Warning: Unable to resolve reference 'registers' in 'core_0'. (LINK-5)
  
 ****************************************
 Report : area
 Design : gpu
 Version: R-2020.09-SP5-1
-Date   : Sat Dec 13 14:22:49 2025
+Date   : Fri Dec 19 01:05:56 2025
 ****************************************
 
 Information: Updating design information... (UID-85)
@@ -30,23 +12,34 @@ Library(s) Used:
 
     NangateOpenCellLibrary (File: /home/rf5447/stdcells.db)
 
-Number of ports:                         2008
-Number of nets:                          9887
-Number of cells:                         7345
-Number of combinational cells:           6212
-Number of sequential cells:              1099
+Number of ports:                          183
+Number of nets:                         18168
+Number of cells:                        16372
+Number of combinational cells:          14259
+Number of sequential cells:              2109
 Number of macros/black boxes:               0
-Number of buf/inv:                       1461
-Number of references:                       7
+Number of buf/inv:                       2072
+Number of references:                      55
 
-Combinational area:               6885.676032
-Buf/Inv area:                      846.944002
-Noncombinational area:            4937.757822
+Combinational area:              15707.300082
+Buf/Inv area:                     1229.186001
+Noncombinational area:            9552.591656
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:                 11823.433854
+Total cell area:                 25259.891738
 Total area:                 undefined
 
-Information: This design contains black box (unknown) components. (RPT-8)
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area            Local cell area
+                                  -------------------  ----------------------------- 
+Hierarchical cell                 Absolute    Percent  Combi-      Noncombi-  Black-
+                                  Total       Total    national    national   boxes   Design
+--------------------------------  ----------  -------  ----------  ---------  ------  ---------
+gpu                               25259.8917    100.0  15707.3001  9552.5917  0.0000  gpu
+--------------------------------  ----------  -------  ----------  ---------  ------  ---------
+Total                                                  15707.3001  9552.5917  0.0000
+
 1
