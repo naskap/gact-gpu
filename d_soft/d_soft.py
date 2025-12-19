@@ -1,3 +1,5 @@
+# Used AI to generate the function comment for the Construct_Seed_Pointer_Table for easy reading
+# the chat can be found here: https://chatgpt.com/s/t_693de3540fdc819182e56372f1b37196
 
 def Construct_Seed_Pointer_Table(references, k):
     """
@@ -30,10 +32,10 @@ def Construct_Seed_Pointer_Table(references, k):
 
     return reference_pointer_table
 
-# query = 'ATGCTGGG'
-query =   'AAAAAAAA'
-# reference1 = "ATGCTGGGACGTAGCTATGCTGGGTTACGATCGATGCTGGGCCGTAAGCTTAGGCTAGCTAGCTGACATGGG"
-reference1 =   "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+query = 'ATGCTGGG'
+# query =   'AAAAAAAA'
+reference1 = "ATGCTGGGACGTAGCTATGCTGGGTTACGATCGATGCTGGGCCGTAAGCTTAGGCTAGCTAGCTGACATGGG"
+# reference1 =   "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 reference2 = "CGTAGCTATGCTGGGTTAGCGATATGCTGGGCCGTAATGCTGGGAGCTTACGATCGTAGCTAGCTACATGCT"
 
 k = 4    # seed length
