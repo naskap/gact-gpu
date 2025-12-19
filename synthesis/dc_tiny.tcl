@@ -1,5 +1,6 @@
 # ===============================
 # dc_tiny.tcl
+# used Google Gemini to help generate scripts and modified it to our needs: https://gemini.google.com/share/313d2433cab2
 # Updated to use analyze/elaborate
 # ===============================
 
